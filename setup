@@ -107,7 +107,7 @@ EOF
 disable_unwanted_services() {
     systemctl disable --now cups
     systemctl disable --now whoopsie
-    systemctl disable --now avahi.daemon
+    systemctl disable --now avahi-daemon
 }
 
 disable_automatic_updates() {
