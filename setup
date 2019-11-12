@@ -18,6 +18,8 @@ main() {
     disable_unwanted_services
     cleanup_user_home
     configure_gnome_settings
+
+    echo "\nprestobuntu setup complete!"
 }
 
 fail_if_no_user() {
