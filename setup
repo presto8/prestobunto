@@ -132,7 +132,7 @@ EOF
 }
 
 disable_unwanted_services() {
-    systemctl disable --now cups
+    systemctl disable --now cups cups-browsed
     systemctl disable --now whoopsie
     systemctl disable --now avahi-daemon ||:
 }
