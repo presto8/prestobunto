@@ -20,7 +20,7 @@ main() {
     cleanup_user_home
     configure_gnome_settings
 
-    echo "\nprestobuntu setup complete!"
+    echo; echo "prestobuntu setup complete!"
 }
 
 fail_if_no_user() {
