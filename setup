@@ -101,6 +101,7 @@ EOF
 install_packages() {
     install_package openssh-server
     echo $REMOTE_ACCESS_PUBKEY >>$HOME/.ssh/authorized_keys
+    chown $INSTALL_USER:$INSTALL_USER $HOME/.ssh/authorized_keys
 
     install_package screen
     cat >$HOME/.screenrc <<'EOF'
