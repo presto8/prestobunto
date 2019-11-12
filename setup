@@ -14,6 +14,7 @@ main() {
     configure_apt
     install_packages
     configure_system
+    configure_network eno1
     disable_automatic_updates
     disable_unwanted_services
     cleanup_user_home
@@ -84,6 +85,17 @@ configure_system() {
     : configure motd to remove update messages
     (cd /etc/update-motd.d
      chmod -x 10-help-text 90-updates-available 91-release-upgrade)
+}
+
+configure_network() {
+    cat >>/etc/network/interfaces <<EOF
+auto $1
+iface $1 inet static
+address 192.168.250.40/24
+
+auto $1:1
+iface $1:1 inet dhcp
+EOF
 }
 
 install_packages() {
