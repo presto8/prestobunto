@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+
+INSTALL_USER="user"
+
+# NOTE! You probably want to change the key below to your own key
+REMOTE_ACCESS_PUBKEY="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCf54m5flMWc5jNo5n5By5OdeR4wJCqH9MARZXjMqGHwi2oipSU4kgkTM00xVoYJpwvTsfbLUsR3XL3VvKyhx8u3p5JOxW0dvQaUx8kq53vgAfXQ4aAU3AdfuK6XJEnFoxSSqnCD0lnNb/dqcUaiml6A+e1KR1S4khsFHUqu6ZuRSK4ozreTqmxv/oCJ9eXFc0dJ1mVzXcZt4LW/qciNsl2/i/sonibJlucWAfFn2XhZYKtPnsycGDiJ47XgPK7aTePcKOz7iL3jLpJETMwldjLy6Mwo/ViuU1X/TrIeoiQyJp/BKho1/Iz/B6GM/Fd+8VElqQfTOMSxakQRI3RqAH5 remoteaccesspubkey"
+
+main() {
+    set -e -x
+    HOME=/home/$INSTALL_USER
+
+    fail_if_no_user
+    fail_if_too_many_users
+    configure_apt
+    install_packages
+    configure_system
+    disable_automatic_updates
+    disable_unwanted_services
+    cleanup_user_home
+    configure_gnome_settings
+}
+
+fail_if_no_user() {
+    if ! id -u $INSTALL_USER &>/dev/null; then
+        : cowardly refusing to run since '$INSTALL_USER' account does not exist
+        exit 1
+    fi
+}
+
+fail_if_too_many_users() {
+    home=$(echo /home/*)
+    if [[ "$home" != "/home/$INSTALL_USER" ]]; then
+        : cowardly refusing to run since /home directory is not as we expected
+        exit 2
+    fi
+}
+
+install_package() {
+    if ! dpkg -s "$1" | grep -q "Status: install ok installed"; then
+        echo "installing $1"
+        apt install -y "$1"
+    fi
+}
+
+remove_package() {
+    if ! dpkg -s "$1" 2>&1 | grep -q "is not installed"; then
+        echo "uninstalling $i"
+        apt purge -y "$1"
+    fi
+}
+
+copy_file() {
+    cp --backup=numbered "$@"
+}
+
+configure_apt() {
+    : kill running apt
+    pkill -f apt ||:
+    pkill -f aptd ||:
+
+    if grep -q "RELEASE=16" /etc/lsb-release; then
+        : "Add repo needed for vim8"
+        if [[ ! -f /etc/apt/sources.list.d/jonathonf-ubuntu-vim-xenial.list ]]; then
+            add-apt-repository ppa:jonathonf/vim -y
+        fi
+    fi
+
+    : Update apt
+    apt update
+}
+
+configure_system() {
+    : Allow sudo without password
+    sed -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD: \2|' /etc/sudoers 
+
+    : Remap CapsLock key as Ctrl
+    sed -i.bak 's|^(XKBOPTIONS=")(")|\1ctrl:nocaps\2|' /etc/default/keyboard
+
+    : make journald persistent
+    mkdir -p /var/log/journal
+
+    : configure motd to remove update messages
+    (cd /etc/update-motd.d
+     chmod -x 10-help-text 90-updates-available 91-release-upgrade)
+}
+
+install_packages() {
+    install_package openssh-server
+    echo $REMOTE_ACCESS_PUBKEY >>$HOME/.ssh/authorized_keys
+
+    install_package screen
+    cat >$HOME/.screenrc <<<EOF
+startup_message off
+hardstatus alwayslastline
+hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %H%{KW}|%{KY}%101`%{KW}|%D %M %d%{= Kc} %C%A%{-}'
+EOF
+
+    install_package exuberant-ctags
+    install_package git
+
+    install_package vim-gtk3
+
+    install_package python3-pip
+    hash -r
+}
+
+disable_unwanted_services() {
+    systemctl disable --now cups
+    systemctl disable --now whoopsie
+    systemctl disable --now avahi.daemon
+}
+
+disable_automatic_updates() {
+    systemctl disable --now apt-daily.timer
+    systemctl disable --now unattended-upgrades
+}
+
+cleanup_user_home() {
+    find /home/$INSTALL_USER -type d -empty -delete
+    find /home/$INSTALL_USER -name examples.desktop -delete
+}
+
+configure_gnome_settings() {
+    gsettings="sudo -u $INSTALL_USER -H gsettings"
+    $gsettings set org.gnome.desktop.wm.preferences focus-mode 'sloppy'
+    $gsettings set org.gnome.desktop.screensaver lock-enabled false
+    $gsettings set org.gnome.desktop.screensaver ubuntu-lock-on-suspend false
+    $gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true
+    $gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action 'nothing'
+    $gsettings set org.compiz.unityshell:/org/compiz/profiles/unity/plugins/unityshell/ launcher-hide-mode 1
+}
+
+main "$@"
