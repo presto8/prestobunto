@@ -58,8 +58,10 @@ copy_file() {
 
 configure_apt() {
     : kill running apt
-    pkill -f apt ||:
-    pkill -f aptd ||:
+    while pgrep -f 'apt|aptd'; do
+        pkill -f 'apt|aptd' ||:
+        sleep 0.1
+    done
 
     if grep -q "RELEASE=16" /etc/lsb-release; then
         : "Add repo needed for vim8"
