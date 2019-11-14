@@ -149,7 +149,7 @@ cleanup_user_home() {
 }
 
 configure_gnome_settings() {
-    gsettings="sudo -u $INSTALL_USER -H gsettings"
+    gsettings="sudo -u $INSTALL_USER -H dbus-launch gsettings"
     $gsettings set org.gnome.desktop.wm.preferences focus-mode 'sloppy'
     $gsettings set org.gnome.desktop.screensaver lock-enabled false
     $gsettings set org.gnome.desktop.screensaver ubuntu-lock-on-suspend false
