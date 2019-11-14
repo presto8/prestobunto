@@ -20,6 +20,7 @@ main() {
     disable_unwanted_services
     cleanup_user_home
     configure_gnome_settings
+    configure_x11vnc_remote_access
 
     echo; echo "prestobuntu setup complete!"
 }
@@ -155,6 +156,25 @@ configure_gnome_settings() {
     $gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true
     $gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action 'nothing'
     $gsettings set org.compiz.unityshell:/org/compiz/profiles/unity/plugins/unityshell/ launcher-hide-mode 1
+}
+
+configure_x11vnc_remote_access() {
+    install_package x11vnc
+    cat >/etc/systemd/system/x11vnc.server <<EOF
+[Unit]
+Description=x11vnc Service
+After=multi-user.target
+
+[Service]
+Type=Simple
+ExecStart=/usr/bin/x11vnc -display :0 -auth /run/user/1000/gdm/Xauthority
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+    systemctl daemon-reload
+    systemctl enable --now x11vnc
 }
 
 main "$@"
