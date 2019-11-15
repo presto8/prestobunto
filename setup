@@ -163,7 +163,7 @@ configure_gnome_settings() {
 
 configure_x11vnc_remote_access() {
     install_package x11vnc
-    cat >/etc/systemd/system/x11vnc.server <<EOF
+    cat >/etc/systemd/system/x11vnc.service <<EOF
 [Unit]
 Description=x11vnc Service
 After=multi-user.target
