@@ -1,4 +1,4 @@
-# prestobunto
+# prestobuntu
 Customized Ubuntu to my preferences
 
 ## Steps
