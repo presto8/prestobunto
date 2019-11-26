@@ -87,11 +87,15 @@ configure_apt() {
 }
 
 configure_system() {
-    : Allow sudo without password
-    sed -E -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD: \2|' /etc/sudoers 
+    if ! grep -q NOPASSWD /etc/sudoers; then
+        : Allow sudo without password
+        sed -E -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD: \2|' /etc/sudoers
+    fi
 
-    : Remap CapsLock key as Ctrl
-    sed -E -i.bak 's|^(XKBOPTIONS=")(")|\1ctrl:nocaps\2|' /etc/default/keyboard
+    if ! grep -q ctrl:nocaps /etc/default/keyboard; then
+        : Remap CapsLock key as Ctrl
+        sed -E -i.bak 's|^(XKBOPTIONS=")(")|\1ctrl:nocaps\2|' /etc/default/keyboard
+    fi
 
     : make journald persistent
     mkdir -p /var/log/journal
