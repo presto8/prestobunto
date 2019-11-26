@@ -12,6 +12,7 @@ main() {
     require_root
     fail_if_no_user
     fail_if_too_many_users
+
     configure_apt
     install_packages
     configure_system
@@ -101,8 +102,13 @@ configure_system() {
 }
 
 configure_network() {
+    if grep -q prestobuntu /etc/network/interfaces; then
+        return
+    fi
+
     cat >>/etc/network/interfaces <<EOF
 
+# added by prestobuntu
 auto $1
 iface $1 inet static
 address 192.168.250.40/24
