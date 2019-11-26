@@ -21,6 +21,7 @@ main() {
     cleanup_user_home
     configure_gnome_settings
     configure_x11vnc_remote_access
+    disable_graphical_grub
 
     echo; echo "prestobuntu setup complete!"
 }
@@ -137,6 +138,11 @@ disable_unwanted_services() {
     systemctl disable --now cups cups-browsed
     systemctl disable --now whoopsie
     systemctl disable --now avahi-daemon ||:
+}
+
+disable_graphical_grub() {
+    sed -r -i.bak 's|^(GRUB_CMDLINE_LINUX_DEFAULT=")quiet splash(")|\1\2' /etc/default/grub
+    update-grub
 }
 
 disable_automatic_updates() {
