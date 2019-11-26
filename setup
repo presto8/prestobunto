@@ -87,10 +87,10 @@ configure_apt() {
 
 configure_system() {
     : Allow sudo without password
-    sed -r -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD: \2|' /etc/sudoers 
+    sed -E -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD: \2|' /etc/sudoers 
 
     : Remap CapsLock key as Ctrl
-    sed -r -i.bak 's|^(XKBOPTIONS=")(")|\1ctrl:nocaps\2|' /etc/default/keyboard
+    sed -E -i.bak 's|^(XKBOPTIONS=")(")|\1ctrl:nocaps\2|' /etc/default/keyboard
 
     : make journald persistent
     mkdir -p /var/log/journal
@@ -141,7 +141,7 @@ disable_unwanted_services() {
 }
 
 disable_graphical_grub() {
-    sed -r -i.bak 's|^(GRUB_CMDLINE_LINUX_DEFAULT=")quiet splash(")|\1\2' /etc/default/grub
+    sed -E -i.bak 's|^(GRUB_CMDLINE_LINUX_DEFAULT=")quiet splash(")|\1\2' /etc/default/grub
     update-grub
 }
 
@@ -149,7 +149,7 @@ disable_automatic_updates() {
     systemctl disable --now apt-daily.timer
     systemctl disable --now unattended-upgrades
 
-    sed -r -i.bak 's|"1"|"0"|' /etc/apt/apt.conf.d/20auto-upgrades
+    sed -E -i.bak 's|"1"|"0"|' /etc/apt/apt.conf.d/20auto-upgrades
 }
 
 cleanup_user_home() {
