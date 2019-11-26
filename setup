@@ -178,6 +178,9 @@ configure_gnome_settings() {
     if grep -q "RELEASE=16" /etc/lsb-release; then
         $gsettings set org.compiz.unityshell:/org/compiz/profiles/unity/plugins/unityshell/ launcher-hide-mode 1
     fi
+
+    : disable ubuntu/gnome welcome wizard
+    sed -E -i.bak 's|^(Exec=.*)$|# \1|' /etc/xdg/autostart/gnome-initial-setup-first-login.desktop
 }
 
 configure_x11vnc_remote_access() {
