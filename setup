@@ -151,7 +151,7 @@ disable_unwanted_services() {
 }
 
 disable_graphical_grub() {
-    sed -E -i.bak 's|^(GRUB_CMDLINE_LINUX_DEFAULT=")quiet splash(")|\1\2' /etc/default/grub
+    sed -E -i.bak 's|^(GRUB_CMDLINE_LINUX_DEFAULT=")quiet splash(")|\1\2|' /etc/default/grub
     update-grub
 }
 
