@@ -14,6 +14,7 @@ main() {
     fail_if_too_many_users
 
     configure_apt
+    setup_ssh
     install_packages
     configure_system
     configure_network eno1
@@ -122,12 +123,14 @@ iface $1:1 inet dhcp
 EOF
 }
 
-install_packages() {
+setup_ssh() {
     install_package openssh-server
     mkdir -p $HOME/.ssh
-    echo $REMOTE_ACCESS_PUBKEY >>$HOME/.ssh/authorized_keys
+    echo "$REMOTE_ACCESS_PUBKEY" >>$HOME/.ssh/authorized_keys
     chown $INSTALL_USER:$INSTALL_USER $HOME/.ssh/authorized_keys
+}
 
+install_packages() {
     install_package screen
     cat >$HOME/.screenrc <<'EOF'
 startup_message off
