@@ -15,6 +15,7 @@ main() {
 
     configure_apt
     setup_ssh
+    setup_screen
     install_packages
     configure_system
     configure_network eno1
@@ -130,14 +131,16 @@ setup_ssh() {
     chown $INSTALL_USER:$INSTALL_USER $HOME/.ssh/authorized_keys
 }
 
-install_packages() {
+setup_screen() {
     install_package screen
     cat >$HOME/.screenrc <<'EOF'
 startup_message off
 hardstatus alwayslastline
 hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %H%{KW}|%{KY}%101`%{KW}|%D %M %d%{= Kc} %C%A%{-}'
 EOF
+}
 
+install_packages() {
     install_package exuberant-ctags
     install_package git
 
