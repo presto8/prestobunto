@@ -127,7 +127,11 @@ EOF
 
 setup_ssh() {
     install_package openssh-server
+
     mkdir -p $HOME/.ssh
+    chown $INSTALL_USER:$INSTALL_USER .ssh
+    chmod 700 .
+
     echo "$REMOTE_ACCESS_PUBKEY" >>$HOME/.ssh/authorized_keys
     chown $INSTALL_USER:$INSTALL_USER $HOME/.ssh/authorized_keys
 }
