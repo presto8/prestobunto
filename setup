@@ -14,6 +14,7 @@ main() {
     fail_if_too_many_users
 
     configure_apt
+    setup_zsh
     setup_ssh
     setup_screen
     install_packages
@@ -129,6 +130,12 @@ setup_ssh() {
     mkdir -p $HOME/.ssh
     echo "$REMOTE_ACCESS_PUBKEY" >>$HOME/.ssh/authorized_keys
     chown $INSTALL_USER:$INSTALL_USER $HOME/.ssh/authorized_keys
+}
+
+setup_zsh() {
+    install_package zsh
+
+    chsh -s /usr/bin/zsh
 }
 
 setup_screen() {
