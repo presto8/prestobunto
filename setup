@@ -40,7 +40,7 @@ require_root() {
 
 fail_if_no_user() {
     if ! id -u $INSTALL_USER &>/dev/null; then
-        : cowardly refusing to run since '$INSTALL_USER' account does not exist
+        : cowardly refusing to run since "$INSTALL_USER" account does not exist
         exit 1
     fi
 }
@@ -140,6 +140,7 @@ setup_zsh() {
 
 setup_screen() {
     install_package screen
+
     cat >$HOME/.screenrc <<'EOF'
 startup_message off
 hardstatus alwayslastline
