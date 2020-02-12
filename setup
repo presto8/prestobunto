@@ -139,8 +139,7 @@ setup_ssh() {
 
 setup_zsh() {
     install_package zsh
-
-    chsh -s /usr/bin/zsh
+    chsh -s /usr/bin/zsh $INSTALL_USER
 }
 
 setup_screen() {
