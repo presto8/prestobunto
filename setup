@@ -173,6 +173,11 @@ disable_graphical_grub() {
     update-grub
 }
 
+_sed() {
+    from=$1 to=$2 file=$3
+    sed -E -i.bak "s|$from|$to|g" "$file"
+}
+
 disable_automatic_updates() {
     systemctl disable --now apt-daily.timer
     systemctl disable --now unattended-upgrades
