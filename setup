@@ -186,8 +186,8 @@ disable_automatic_updates() {
 }
 
 cleanup_user_home() {
-    find /home/$INSTALL_USER -type d -empty -delete
-    find /home/$INSTALL_USER -name examples.desktop -delete
+    find /home/$INSTALL_USER -type d -empty -delete ||:
+    find /home/$INSTALL_USER -name examples.desktop -delete ||:
 }
 
 configure_gnome_settings() {
