@@ -140,6 +140,9 @@ setup_ssh() {
 setup_zsh() {
     install_package zsh
     chsh -s /usr/bin/zsh $INSTALL_USER
+
+    : liquid prompt
+    curl "https://raw.githubusercontent.com/nojhan/liquidprompt/master/liquidprompt" --output $HOME/.liquidprompt
 }
 
 setup_screen() {
