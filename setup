@@ -47,7 +47,8 @@ fail_if_no_user() {
 }
 
 fail_if_too_many_users() {
-    local home=$(echo /home/*)
+    local home
+    home=$(echo /home/*)
     if [[ "$home" != "/home/$INSTALL_USER" ]]; then
         : cowardly refusing to run since /home directory is not as we expected
         exit 2
@@ -199,7 +200,8 @@ _add_line() {
 
 cloudflare_dns() {
     : configure CloudFlare to take priority over DHCP provided DNS
-    local resolv=$(head -1 /etc/resolv.conf)
+    local resolv
+    resolv=$(head -1 /etc/resolv.conf)
     if [[ $resolv =~ resolvconf ]]; then
         _add_line "nameserver 1.1.1.1" /etc/resolvconf/resolv.conf.d/head
     elif [[ $resolv =~ systemd-resolved ]]; then
