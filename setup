@@ -159,10 +159,18 @@ install_packages() {
     install_package exuberant-ctags
     install_package git
 
-    install_package vim-gtk3
+    install_vim
 
     install_package python3-pip
     hash -r
+}
+
+install_vim() {
+    install_package vim-gtk3
+
+    autoload=$HOME/.vim/autoload
+    mkdir -p $autoload
+    curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" --output $autoload/plug.vim
 }
 
 disable_unwanted_services() {
