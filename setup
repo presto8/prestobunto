@@ -192,7 +192,7 @@ _sed() {
 _add_line() {
     # adds line if not present
     line="$1" file="$2"
-    if ! grep -q "^$line\$" "$file"; then
+    if ! grep --line-regexp --fixed-strings "$line" "$file" &>/dev/null; then
         echo "$line" >>"$file"
     fi
 }
