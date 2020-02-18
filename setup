@@ -47,7 +47,7 @@ fail_if_no_user() {
 }
 
 fail_if_too_many_users() {
-    home=$(echo /home/*)
+    local home=$(echo /home/*)
     if [[ "$home" != "/home/$INSTALL_USER" ]]; then
         : cowardly refusing to run since /home directory is not as we expected
         exit 2
@@ -168,7 +168,7 @@ install_packages() {
 install_vim() {
     install_package vim-gtk3
 
-    autoload=$HOME/.vim/autoload
+    local autoload=$HOME/.vim/autoload
     mkdir -p $autoload
     curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" --output $autoload/plug.vim
 }
@@ -185,13 +185,13 @@ disable_graphical_grub() {
 }
 
 _sed() {
-    from=$1 to=$2 file=$3
+    local from=$1 to=$2 file=$3
     sed -E -i.bak "s|$from|$to|g" "$file"
 }
 
 _add_line() {
     # adds line if not present
-    line="$1" file="$2"
+    local line="$1" file="$2"
     if ! grep --line-regexp --fixed-strings "$line" "$file" &>/dev/null; then
         echo "$line" >>"$file"
     fi
@@ -199,7 +199,7 @@ _add_line() {
 
 cloudflare_dns() {
     : configure CloudFlare to take priority over DHCP provided DNS
-    resolv=$(head -1 /etc/resolv.conf)
+    local resolv=$(head -1 /etc/resolv.conf)
     if [[ $resolv =~ resolvconf ]]; then
         _add_line "nameserver 1.1.1.1" /etc/resolvconf/resolv.conf.d/head
     elif [[ $resolv =~ systemd-resolved ]]; then
