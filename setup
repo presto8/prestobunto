@@ -64,7 +64,7 @@ install_package() {
 
 remove_package() {
     if ! dpkg -s "$1" 2>&1 | grep -q "is not installed"; then
-        echo "uninstalling $i"
+        echo "uninstalling $1"
         apt purge -y "$1"
     fi
 }
