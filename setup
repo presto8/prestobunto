@@ -159,6 +159,7 @@ EOF
 install_packages() {
     install_package exuberant-ctags
     install_package git
+    install_package flake8
 
     install_vim
 
