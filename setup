@@ -140,6 +140,7 @@ setup_ssh() {
 
 setup_zsh() {
     install_package zsh
+    touch $HOME/.zlogin
     chsh -s /usr/bin/zsh $INSTALL_USER
 
     : liquid prompt
