@@ -141,6 +141,8 @@ setup_ssh() {
 setup_zsh() {
     install_package zsh
     touch $HOME/.zlogin
+    curl "https://raw.githubusercontent.com/nojhan/liquidprompt/master/zshrc" --output $HOME/.zshrc
+
     chsh -s /usr/bin/zsh $INSTALL_USER
 
     : liquid prompt
