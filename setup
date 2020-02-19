@@ -174,6 +174,8 @@ install_vim() {
     curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" --output $autoload/plug.vim
 
     curl "https://raw.githubusercontent.com/presto8/prestobuntu/vimrc" --output $HOME/.vim/vimrc
+
+    vim +'PlugInstall --sync' +qa
 }
 
 disable_unwanted_services() {
