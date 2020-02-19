@@ -16,3 +16,7 @@ Customized Ubuntu to my preferences
   - openssh-server, screen, vncserver, vim, git, exuberant-ctags
 - Disable packages
   - cups, whoopsie, avahi.daemon, apt-daily
+- Shell
+  - zsh
+- Vim
+  - Fully featured vim environment with many plugins
