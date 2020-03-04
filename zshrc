@@ -1,4 +1,5 @@
-export VISUAL=vim EDITOR=$VISUAL
+export VISUAL=vim
+export EDITOR=$VISUAL
 export LS_COLORS="ln=01;35:di=01;36"
 
 setopt autocd
