@@ -138,14 +138,24 @@ setup_ssh() {
     chown $INSTALL_USER:$INSTALL_USER $HOME/.ssh/authorized_keys
 }
 
+get_internet_file() {
+    wget "$1" --output-file "$2"
+    chown $INSTALL_USER:$INSTALL_USER "$2"
+}
+
+get_prestobuntu_file() {
+    base="https://raw.githubusercontent.com/presto8/prestobuntu/master"
+    get_internet_file "$base/$1" "$2"
+}
+
 setup_zsh() {
     install_package zsh
-    curl "https://raw.githubusercontent.com/nojhan/liquidprompt/master/zshrc" --output $HOME/.zshrc
+    get_prestobuntu_file zshrc $HOME/.zshrc
 
     chsh -s /usr/bin/zsh $INSTALL_USER
 
     : liquid prompt
-    curl "https://raw.githubusercontent.com/nojhan/liquidprompt/master/liquidprompt" --output $HOME/.liquidprompt
+    get_internet_file "https://raw.githubusercontent.com/nojhan/liquidprompt/master/liquidprompt" $HOME/.liquidprompt
 }
 
 setup_screen() {
@@ -174,9 +184,9 @@ install_vim() {
 
     local autoload=$HOME/.vim/autoload
     mkdir -p $autoload
-    curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" --output $autoload/plug.vim
 
-    curl "https://raw.githubusercontent.com/presto8/prestobuntu/vimrc" --output $HOME/.vim/vimrc
+    get_internet_file "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" $autoload/plug.vim
+    get_prestobuntu_file vimrc $HOME/.vim/vimrc
 
     vim +'PlugInstall --sync' +qa
 }
