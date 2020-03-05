@@ -7,7 +7,7 @@ setopt autocd
 
 autoload -U colors && colors
 
-source ~/.liquidprompt
+[[ -f ~/.liquidprompt ]]] && source "$_"
 
 # Completions
 setopt correct correctall
