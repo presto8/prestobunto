@@ -1,6 +1,7 @@
 export VISUAL=vim
 export EDITOR=$VISUAL
 export LS_COLORS="ln=01;35:di=01;36"
+export TERM=xterm-256color
 
 setopt autocd
 
@@ -41,8 +42,6 @@ setopt hist_ignore_dups sharehistory hist_ignore_space
 
 setopt no_flow_control
 
-export TERM=xterm-256color
-
 # Display statistics for commands that take user+sys longer than this time
 REPORTTIME=10
 
@@ -51,9 +50,6 @@ printf %b '\e]4;4;#0088ff\a'  # set the blue shade to a very light blue
 
 # may need the following if delete key doesn't work
 bindkey "\e[3~" delete-char
-
-# Colors for ls on black background
-export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 
 alias l='ls -l'
 psg() { pgrep -f "$@" | xargs --no-run-if-empty ps -f -p}
