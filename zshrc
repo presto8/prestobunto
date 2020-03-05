@@ -53,6 +53,7 @@ printf %b '\e]4;4;#0088ff\a'  # set the blue shade to a very light blue
 bindkey "\e[3~" delete-char
 
 # Aliases
+alias ls='ls --color'
 alias l='ls -l'
 psg() { pgrep -f "$@" | xargs --no-run-if-empty ps -f -p}
 alias rg='rg -i'
