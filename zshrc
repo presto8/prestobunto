@@ -1,6 +1,6 @@
 export VISUAL=vim
 export EDITOR=$VISUAL
-export LS_COLORS="ln=01;35:di=01;36"
+export LS_COLORS="ln=4:di=1;36"  # underline links, dirs bright blue
 export TERM=xterm-256color
 
 setopt autocd
