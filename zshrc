@@ -56,11 +56,10 @@ bindkey "\e[3~" delete-char
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 
 alias l='ls -l'
-alias psg='f() { ps aux | grep -i "$@" | tr -s " " | cut -d" " -f1-2,11-}; f'
+psg() { pgrep -f "$@" | xargs --no-run-if-empty ps -f -p}
 alias rg='rg -i'
 alias j='journalctl -f'
 alias jk='journalctl -k -f'
 alias setproj='echo $PWD >$XDG_RUNTIME_DIR/current_project'
 alias gp='cd $(cat $XDG_RUNTIME_DIR/current_project)'
 alias scr='screen -dR'
-
