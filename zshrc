@@ -40,6 +40,7 @@ SAVEHIST=10000
 setopt append_history extended_history incappendhistory
 setopt hist_ignore_dups sharehistory hist_ignore_space
 
+# Disable Ctrl+S/Ctrl+Q
 setopt no_flow_control
 
 # Display statistics for commands that take user+sys longer than this time
@@ -51,6 +52,7 @@ printf %b '\e]4;4;#0088ff\a'  # set the blue shade to a very light blue
 # may need the following if delete key doesn't work
 bindkey "\e[3~" delete-char
 
+# Aliases
 alias l='ls -l'
 psg() { pgrep -f "$@" | xargs --no-run-if-empty ps -f -p}
 alias rg='rg -i'
