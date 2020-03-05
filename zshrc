@@ -46,9 +46,6 @@ setopt no_flow_control
 # Display statistics for commands that take user+sys longer than this time
 REPORTTIME=10
 
-# Change the dark blue to be more visible - see http://bit.ly/ZVV82d
-printf %b '\e]4;4;#0088ff\a'  # set the blue shade to a very light blue
-
 # may need the following if delete key doesn't work
 bindkey "\e[3~" delete-char
 
