@@ -7,7 +7,7 @@ setopt autocd
 
 autoload -U colors && colors
 
-[[ -f ~/.liquidprompt ]]] && source "$_"
+test -f ~/.liquidprompt && source "$_"
 
 # Completions
 setopt correct correctall
@@ -21,12 +21,12 @@ autoload -U zmv
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
 # Formatting and messages
-zstyle ':completion:*' verbose 'yes'
-zstyle ':completion:*:descriptions' format "%B-- %d --%b"
-zstyle ':completion:*:messages' format "%B--${green} %d ${nocolor}--%b"
-zstyle ':completion:*:warnings' format "%B--${red} no match for: %d ${nocolor}--%b"
-zstyle ':completion:*:corrections' format "%B--${yellow} %d ${nocolor}-- (errors %e)%b"
-zstyle ':completion:*' group-name ''
+# zstyle ':completion:*' verbose 'yes'
+# zstyle ':completion:*:descriptions' format "%B-- %d --%b"
+# zstyle ':completion:*:messages' format "%B--${green} %d ${nocolor}--%b"
+# zstyle ':completion:*:warnings' format "%B--${red} no match for: %d ${nocolor}--%b"
+# zstyle ':completion:*:corrections' format "%B--${yellow} %d ${nocolor}-- (errors %e)%b"
+# zstyle ':completion:*' group-name ''
 
 # Case-insensitive globbing
 setopt extendedglob
