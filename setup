@@ -138,6 +138,9 @@ setup_ssh() {
     as_user touch $HOME/.ssh/authorized_keys
     _require_line "$REMOTE_ACCESS_PUBKEY" $HOME/.ssh/authorized_keys
     chmod 600 $HOME/.ssh/authorized_keys
+
+    # make sure this system has ssh keys
+    ! test -f ~/.ssh/id_rsa && ssh-keygen -f "$_" -N ""
 }
 
 get_internet_file() {
