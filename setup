@@ -136,7 +136,7 @@ setup_ssh() {
 
     as_user mkdir -p $HOME/.ssh --mode 700
     as_user touch $HOME/.ssh/authorized_keys
-    _add_line "$REMOTE_ACCESS_PUBKEY" $HOME/.ssh/authorized_keys
+    _require_line "$REMOTE_ACCESS_PUBKEY" $HOME/.ssh/authorized_keys
     chmod 600 $HOME/.ssh/authorized_keys
 }
 
@@ -206,7 +206,7 @@ _sed() {
     sed -E -i.bak "s|$from|$to|g" "$file"
 }
 
-_add_line() {
+_require_line() {
     # adds line if not present
     local line="$1" file="$2"
     if ! grep --line-regexp --fixed-strings "$line" "$file" &>/dev/null; then
@@ -219,7 +219,7 @@ cloudflare_dns() {
     local resolv
     resolv=$(head -1 /etc/resolv.conf)
     if [[ $resolv =~ resolvconf ]]; then
-        _add_line "nameserver 1.1.1.1" /etc/resolvconf/resolv.conf.d/head
+        _require_line "nameserver 1.1.1.1" /etc/resolvconf/resolv.conf.d/head
     elif [[ $resolv =~ systemd-resolved ]]; then
         _sed "^#DNS=" "DNS=1.1.1.1" /etc/systemd/resolved.conf
         systemctl restart systemd-resolved
