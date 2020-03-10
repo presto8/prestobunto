@@ -135,7 +135,8 @@ setup_ssh() {
     install_package openssh-server
 
     as_user mkdir -p $HOME/.ssh --mode 700
-    echo "$REMOTE_ACCESS_PUBKEY" | as_user tee -a $HOME/.ssh/authorized_keys
+    as_user touch $HOME/.ssh/authorized_keys
+    _add_line "$REMOTE_ACCESS_PUBKEY" $HOME/.ssh/authorized_keys
     chmod 600 $HOME/.ssh/authorized_keys
 }
 
