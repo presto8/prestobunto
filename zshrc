@@ -10,8 +10,6 @@ autoload -U colors && colors
 test -f ~/.liquidprompt && source "$_"
 
 # Completions
-setopt correct correctall
-
 zstyle ':completion:*' menu select=long-list select=1
 
 autoload -U compinit && compinit -C
