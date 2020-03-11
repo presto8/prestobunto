@@ -71,10 +71,6 @@ remove_package() {
     fi
 }
 
-copy_file() {
-    cp --backup=numbered "$@"
-}
-
 configure_apt() {
     : kill running apt
     while pgrep -f 'apt|aptd'; do
