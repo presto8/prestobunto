@@ -1,0 +1,47 @@
+[user]
+    email = unknown@unknown.com
+    name = Unknown User
+
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    ui = auto
+
+[alias]
+    bage = for-each-ref --sort='-committerdate:iso8601' --format=' %(committerdate:iso8601)%09%(refname)' refs/heads
+    can = commit --amend --no-edit
+    count = rev-list --count --first-parent HEAD
+    diff1 = diff HEAD~1
+    ds = diff --stat
+    glog = log --graph --oneline --decorate --all
+    l = log --stat --decorate
+    log = log --stat
+    logall = log --graph --all --decorate
+    push = push --verbose
+    sta = status
+
+[merge]
+    tool = diffconflicts
+    stat = true
+
+[push]
+    default = tracking
+
+[pull]
+    rebase = true
+
+[mergetool "diffconflicts"]
+    cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
+    trustExitCode = true
+    keepBackup = false
+
+[commit]
+    verbose = true
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true

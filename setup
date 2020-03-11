@@ -17,6 +17,7 @@ main() {
     setup_zsh
     setup_ssh
     setup_screen
+    setup_git
     install_packages
     install_ripgrep
     configure_system
@@ -144,6 +145,11 @@ setup_ssh() {
     ! test -f ~/.ssh/id_rsa && ssh-keygen -f "$_" -N ""
 }
 
+setup_git() {
+    install_package git
+    get_prestobuntu_file gitconfig $HOME/.gitconfig
+}
+
 get_internet_file() {
     as_user wget "$1" --output-document "$2"
 }
@@ -173,7 +179,6 @@ EOF
 
 install_packages() {
     install_package exuberant-ctags
-    install_package git
     install_package flake8
 
     install_vim
