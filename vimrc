@@ -45,5 +45,3 @@ set ignorecase smartcase hlsearch
 set showbreak=>
 set wrap          " word wrap visually on screen only (don't change text)
 set linebreak     " only wrap at certain characters
-set wrapmargin=0
-set textwidth=0   " disable automatic linebreak
