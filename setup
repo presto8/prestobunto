@@ -18,6 +18,7 @@ main() {
     setup_ssh
     setup_screen
     setup_git
+    setup_vim
     install_packages
     install_ripgrep
     configure_system
@@ -177,7 +178,6 @@ install_packages() {
     install_package exuberant-ctags
     install_package flake8
 
-    install_vim
 
     install_package python3-pip
     hash -r
@@ -189,7 +189,7 @@ install_ripgrep() {
     dpkg -i "$_"
 }
 
-install_vim() {
+setup_vim() {
     install_package vim-gtk3
 
     local autoload=$HOME/.vim/autoload
