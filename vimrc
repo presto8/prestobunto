@@ -45,3 +45,14 @@ set ignorecase smartcase hlsearch
 set showbreak=>
 set wrap          " word wrap visually on screen only (don't change text)
 set linebreak     " only wrap at certain characters
+
+" Tell vim to remember certain things when we exit
+"  '10 : marks will be remembered for up to 10 previously edited files
+"  \"100 : will save up to 100 lines for each register
+"  :20 : up to 20 lines of command-line history will be remembered
+"  % : saves and restores the buffer list
+"  n... : where to save the viminfo files
+set viminfo='50,:100,/100,@100,h,%,n~/.vim/viminfo
+
+" Restore cursor position if possible
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
