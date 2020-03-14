@@ -6,25 +6,19 @@ export TERM=xterm-256color
 setopt autocd
 
 autoload -U colors && colors
+autoload -U zmv
 
 test -f ~/.liquidprompt && source "$_"
 
-# Completions
-zstyle ':completion:*' menu select=long-list select=1
-
+# Tab Completions
 autoload -U compinit && compinit -C
-autoload -U zmv
-
-# Case-insensitive (all),partial-word and then substring completion
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-
-# Formatting and messages
-# zstyle ':completion:*' verbose 'yes'
-# zstyle ':completion:*:descriptions' format "%B-- %d --%b"
-# zstyle ':completion:*:messages' format "%B--${green} %d ${nocolor}--%b"
-# zstyle ':completion:*:warnings' format "%B--${red} no match for: %d ${nocolor}--%b"
-# zstyle ':completion:*:corrections' format "%B--${yellow} %d ${nocolor}-- (errors %e)%b"
-# zstyle ':completion:*' group-name ''
+zstyle ':completion:*' menu select=long-list select=1
+zstyle ':completion:*:*:*:default' menu yes select search  # show a menu with incremental search if ambiguous
+setopt menucomplete  # automatically select the first matching entry
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'  # ignore case and partial-word matching
+zstyle ':completion:*:descriptions' format "%B-- %d --%b"  # helpful formatting messages
+zstyle ':completion:*:messages' format "%B-- %d --%b"
+zstyle ':completion:*:warnings' format "%B-- no match for: %d --%b"
 
 # Case-insensitive globbing
 setopt extendedglob
