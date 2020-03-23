@@ -56,3 +56,8 @@ set viminfo='50,:100,/100,@100,h,%,n~/.vim/viminfo
 
 " Restore cursor position if possible
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
+" Programming settings - normally these would go in ftplugin, but for
+" conciseness, we're putting them here
+let c_space_errors = 1
+set number
