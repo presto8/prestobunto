@@ -61,3 +61,6 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 " conciseness, we're putting them here
 let c_space_errors = 1
 set number
+
+" Highlight current line
+set cursorline
