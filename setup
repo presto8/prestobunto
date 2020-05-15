@@ -164,6 +164,8 @@ setup_zsh() {
 
     get_prestobuntu_file zshrc $HOME/.zshrc
     get_internet_file "https://raw.githubusercontent.com/nojhan/liquidprompt/master/liquidprompt" $HOME/.liquidprompt
+    # change some colors to look better with dark background
+    _sed "    LP_COLOR_SSH=.*" "    LP_COLOR_SSH=\$BOLD_WHITE" $HOME/.liquidprompt
 }
 
 setup_screen() {
