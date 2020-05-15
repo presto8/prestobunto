@@ -64,3 +64,6 @@ set number
 
 " Highlight current line
 set cursorline
+
+" Make colors stand out better due to dark background
+set background=dark
