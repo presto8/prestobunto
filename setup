@@ -3,7 +3,7 @@
 INSTALL_USER="user"
 
 # NOTE! You probably want to change the key below to your own key
-REMOTE_ACCESS_PUBKEY="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCf54m5flMWc5jNo5n5By5OdeR4wJCqH9MARZXjMqGHwi2oipSU4kgkTM00xVoYJpwvTsfbLUsR3XL3VvKyhx8u3p5JOxW0dvQaUx8kq53vgAfXQ4aAU3AdfuK6XJEnFoxSSqnCD0lnNb/dqcUaiml6A+e1KR1S4khsFHUqu6ZuRSK4ozreTqmxv/oCJ9eXFc0dJ1mVzXcZt4LW/qciNsl2/i/sonibJlucWAfFn2XhZYKtPnsycGDiJ47XgPK7aTePcKOz7iL3jLpJETMwldjLy6Mwo/ViuU1X/TrIeoiQyJp/BKho1/Iz/B6GM/Fd+8VElqQfTOMSxakQRI3RqAH5 remoteaccesspubkey"
+REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOF7pdrlAiVSJaaynnpEJJ3/1jAmtrPUSNP7/pHIg7bF phunt@agnate"
 
 main() {
     set -e -x
