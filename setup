@@ -181,8 +181,6 @@ EOF
 install_packages() {
     install_package exuberant-ctags
     install_package flake8
-
-
     install_package python3-pip
     hash -r
 }
