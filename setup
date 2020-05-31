@@ -24,6 +24,7 @@ main() {
     setup_vim
     install_packages
     install_ripgrep
+    install_fd
     configure_system
     configure_network eno1
     disable_automatic_updates
@@ -190,6 +191,15 @@ install_ripgrep() {
     # ripgrep not available via apt install so have to install this way
     get_internet_file "https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb" /tmp/ripgrep.deb
     dpkg -i "$_"
+}
+
+install_fd() {
+    if [[ $UBUNTU_VERSION -ge 19 ]]; then
+        install_package fd-find
+    else
+        get_internet_file https://github.com/sharkdp/fd/releases/download/v8.1.1/fd_8.1.1_amd64.deb /tmp/fd.deb
+        dpkg -i "$_"
+    fi
 }
 
 setup_vim() {
