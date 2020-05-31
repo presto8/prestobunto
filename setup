@@ -8,6 +8,7 @@ REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOF7pdrlAiVSJaaynnpEJJ
 main() {
     set -e -x
     HOME=/home/$INSTALL_USER
+    UBUNTU_VERSION=$(grep RELEASE /etc/lsb-release | grep -Eo '[0-9.]+')
 
     update_check
 
