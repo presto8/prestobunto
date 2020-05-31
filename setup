@@ -82,7 +82,7 @@ configure_apt() {
         sleep 0.1
     done
 
-    if grep -q "RELEASE=16" /etc/lsb-release; then
+    if [[ $UBUNTU_VERSION -le 16 ]]; then
         : "Add repo needed for vim8"
         if [[ ! -f /etc/apt/sources.list.d/jonathonf-ubuntu-vim-xenial.list ]]; then
             add-apt-repository ppa:jonathonf/vim -y
@@ -263,7 +263,7 @@ configure_gnome_settings() {
     $gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true
     $gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action 'nothing'
 
-    if grep -q "RELEASE=16" /etc/lsb-release; then
+    if [[ $UBUNTU_VERSION -le 16 ]]; then
         $gsettings set org.compiz.unityshell:/org/compiz/profiles/unity/plugins/unityshell/ launcher-hide-mode 1
     fi
 
