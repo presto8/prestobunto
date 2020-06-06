@@ -31,6 +31,7 @@ main() {
     disable_unwanted_services
     cleanup_user_home
     configure_gnome_settings
+    disable_suspend_on_lid_closed
     configure_x11vnc_remote_access
     disable_graphical_grub
     cloudflare_dns
@@ -279,6 +280,12 @@ configure_gnome_settings() {
 
     : disable ubuntu/gnome welcome wizard
     sed -E -i.bak 's|^(Exec=.*)$|# \1|' /etc/xdg/autostart/gnome-initial-setup-first-login.desktop
+}
+
+disable_suspend_on_lid_closed() {
+    _require_line "HandleLidSwitch=ignore" /etc/systemd/logind.conf
+    _require_line "HandleLidSwitchExternalPower=ignore" /etc/systemd/logind.conf
+    systemctl restart systemd-logind
 }
 
 configure_x11vnc_remote_access() {
