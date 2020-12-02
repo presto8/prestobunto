@@ -1,6 +1,18 @@
 # prestobuntu
 Customized Ubuntu to my preferences
 
+## Installation
+
+The installation script is auto-updating and has many safety checks.
+
+### Installation from local file
+
+    sudo ./setup
+
+### Installation from Internet
+
+    curl https://raw.githubusercontent.com/presto8/prestobuntu/master/setup | sudo bash -x
+
 ## Steps
 
 - Boot
