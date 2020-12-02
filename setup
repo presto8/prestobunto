@@ -36,6 +36,7 @@ main() {
     configure_x11vnc_remote_access
     disable_graphical_grub
     cloudflare_dns
+    install_wireless_build_packages
 
     echo; echo "prestobuntu setup complete!"
 }
@@ -255,6 +256,13 @@ cloudflare_dns() {
         _sed "^#DNS=" "DNS=1.1.1.1" /etc/systemd/resolved.conf
         systemctl restart systemd-resolved
     fi
+}
+
+install_wireless_build_packages() {
+    : install packages needed to compile wpa_supplicant, hostapd, and iwlwifi
+    for i in build-essential libnl-3-dev libnl-genl-3-dev bison flex libssl-dev libreadline-dev libncurses-dev; do
+        install_package "$i"
+    done
 }
 
 disable_automatic_updates() {
