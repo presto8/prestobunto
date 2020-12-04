@@ -21,7 +21,7 @@ call plug#end()
 
 filetype indent plugin on
 
-" swap ; and :
+" allow ; in addition to :
 nnoremap ; :
 ca qa1 qa!
 
