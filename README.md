@@ -1,9 +1,13 @@
 # prestobuntu
-Customized Ubuntu to my preferences
+
+A script to customize Ubuntu to my preferences. Essential services (like sshd)
+are installed and annoyances (like update manager popups) are disabled.
 
 ## Installation
 
-The installation script is auto-updating and has many safety checks.
+The installation script is auto-updating and has many safety checks. Of course,
+you should inspect and verify it before running (as one should do before
+running any arbitrary shell script from the Internet).
 
 ### Installation from local file
 
