@@ -323,7 +323,7 @@ EOF
 }
 
 update_check() {
-    get_prestobuntu_file setup /tmp/setup.$(date -Is)
+    get_prestobuntu_file setup "/tmp/setup.$(date -Is)"
     if ! diff setup "$_" &>/dev/null; then
         echo "A newer setup file may be available: $_"
         echo "Cowardly refusing to proceed..."
