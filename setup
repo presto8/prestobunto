@@ -49,6 +49,13 @@ require_root() {
     fi
 }
 
+apt_update() {
+    if [[ -v HAVE_APT_UPDATE ]]; then
+        apt update
+        HAVE_APT_UPDATE=1
+    fi
+}
+
 fail_if_no_user() {
     if ! id -u $INSTALL_USER &>/dev/null; then
         : cowardly refusing to run since "$INSTALL_USER" account does not exist
@@ -67,6 +74,7 @@ fail_if_too_many_users() {
 
 install_package() {
     if ! dpkg -s "$1" | grep -q "Status: install ok installed"; then
+        apt_update
         echo "installing $1"
         apt install -y "$1"
     fi
@@ -92,9 +100,6 @@ configure_apt() {
             add-apt-repository ppa:jonathonf/vim -y
         fi
     fi
-
-    : Update apt
-    apt update
 }
 
 configure_system() {
