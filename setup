@@ -8,8 +8,6 @@ REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOF7pdrlAiVSJaaynnpEJJ
 main() {
     set -e -x
     HOME=/home/$INSTALL_USER
-    UBUNTU_VERSION=$(grep RELEASE /etc/lsb-release | grep -Eo '[0-9.]+')
-    UBUNTU_VERSION=${UBUNTU_VERSION%%.*}  # keep major version only, e.g. 16
 
     update_check
 
@@ -17,6 +15,7 @@ main() {
     fail_if_no_user
     fail_if_too_many_users
 
+    set_ubuntu_version
     configure_apt
     setup_zsh
     setup_ssh
@@ -85,6 +84,11 @@ remove_package() {
         echo "uninstalling $1"
         apt purge -y "$1"
     fi
+}
+
+set_ubuntu_version() {
+    UBUNTU_VERSION=$(grep RELEASE /etc/lsb-release | grep -Eo '[0-9.]+')
+    UBUNTU_VERSION=${UBUNTU_VERSION%%.*}  # keep major version only, e.g. 16
 }
 
 configure_apt() {
