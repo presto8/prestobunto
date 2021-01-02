@@ -232,6 +232,9 @@ disable_unwanted_services() {
     systemctl disable --now cups cups-browsed
     systemctl disable --now whoopsie
     systemctl disable --now avahi-daemon ||:
+
+    # note: can't uninstall evolution since it will break Ubuntu; prevent the processes from starting
+    chmod -x /usr/libexec/evolution-*
 }
 
 disable_graphical_grub() {
