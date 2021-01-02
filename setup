@@ -277,6 +277,7 @@ install_wireless_build_packages() {
 disable_automatic_updates() {
     systemctl disable --now apt-daily.timer
     systemctl disable --now unattended-upgrades
+    systemctl disable --now packagekit
 
     sed -E -i.bak 's|"1"|"0"|' /etc/apt/apt.conf.d/10periodic
     sed -E -i.bak 's|"1"|"0"|' /etc/apt/apt.conf.d/20auto-upgrades
