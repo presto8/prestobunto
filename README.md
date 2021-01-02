@@ -26,8 +26,10 @@ running any arbitrary shell script from the Internet).
   - Make system journal persistent across reboots
   - Focus follows mouse
   - Remap CapsLock to Ctrl
+  - Hard-code DNS to 1.1.1.1
+  - Disable cups, whoopsie, avahi.daemon, apt-daily, automatic updates
 - Remote access
-  - openssh-server, with pre-install SSH key
+  - openssh-server, with pre-install authorized keys
   - vncserver
 - Filesystem
   - Remove empty directories from /home/user
@@ -36,11 +38,5 @@ running any arbitrary shell script from the Internet).
 - Vim
   - Plugins: vim-sensible, vim-fugitive, vim-commentary, vim-unimpaired,
     supertab, ale, lightline, fzf, vim-gitgutter, vim-foldsearch, vim-ripgrep
-- Disable packages
-  - cups, whoopsie, avahi.daemon, apt-daily, automatic updates
 - Shell
   - zsh with liquidprompt
-- Vim
-  - Fully featured vim environment with many plugins
-- Network
-  - Hard-code DNS to 1.1.1.1
