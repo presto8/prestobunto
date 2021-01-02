@@ -306,7 +306,8 @@ configure_gnome_settings() {
 
     if (( UBUNTU_VERSION >= 20 )); then
         : disable ubuntu/gnome welcome wizard
-        sed -E -i.bak 's|^(Exec=.*)$|# \1|' /etc/xdg/autostart/gnome-initial-setup-first-login.desktop
+        as_user touch $HOME/.config/gnome-initial-setup-done
+        pkill -9 gnome-initial-setup &>/dev/null
     fi
 }
 
