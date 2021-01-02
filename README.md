@@ -26,13 +26,21 @@ running any arbitrary shell script from the Internet).
   - Make system journal persistent across reboots
   - Focus follows mouse
   - Remap CapsLock to Ctrl
+- Remote access
+  - openssh-server, with pre-install SSH key
+  - vncserver
 - Filesystem
   - Remove empty directories from /home/user
 - Install packages
-  - openssh-server, screen, vncserver, vim, git, exuberant-ctags
+  - screen, git, exuberant-ctags, fd
+- Vim
+  - Plugins: vim-sensible, vim-fugitive, vim-commentary, vim-unimpaired,
+    supertab, ale, lightline, fzf, vim-gitgutter, vim-foldsearch, vim-ripgrep
 - Disable packages
-  - cups, whoopsie, avahi.daemon, apt-daily
+  - cups, whoopsie, avahi.daemon, apt-daily, automatic updates
 - Shell
-  - zsh
+  - zsh with liquidprompt
 - Vim
   - Fully featured vim environment with many plugins
+- Network
+  - Hard-code DNS to 1.1.1.1
