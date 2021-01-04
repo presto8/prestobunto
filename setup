@@ -36,6 +36,7 @@ main() {
     disable_graphical_grub
     cloudflare_dns
     install_wireless_build_packages
+    install_zerotier
 
     echo; echo "prestobuntu setup complete!"
 }
@@ -275,6 +276,11 @@ install_wireless_build_packages() {
     for i in build-essential libnl-3-dev libnl-genl-3-dev bison flex libssl-dev libreadline-dev libncurses-dev; do
         install_package "$i"
     done
+}
+
+install_zerotier() {
+    get_internet_file https://install.zerotier.com /tmp/zerotier.install
+    sudo bash "$_"
 }
 
 disable_automatic_updates() {
