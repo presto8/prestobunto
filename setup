@@ -127,6 +127,11 @@ configure_system() {
 }
 
 configure_network() {
+    if (( UBUNTU_VERSION >= 20 )); then
+        # Ubuntu 20.04 and higher use netplan
+        return
+    fi
+
     if grep -q prestobuntu /etc/network/interfaces; then
         return
     fi
