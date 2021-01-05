@@ -50,7 +50,7 @@ require_root() {
 }
 
 apt_update() {
-    if [[ -v HAVE_APT_UPDATE ]]; then
+    if [[ ! -v HAVE_APT_UPDATE ]]; then
         apt update
         HAVE_APT_UPDATE=1
     fi
