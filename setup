@@ -163,7 +163,9 @@ setup_ssh() {
     fi
 
     # make sure this system has ssh keys
-    ! test -f ~/.ssh/id_rsa && ssh-keygen -f "$_" -N ""
+    if ! test -f ~/.ssh/id_rsa; then
+        ssh-keygen -N ""
+    fi
 }
 
 setup_git() {
@@ -318,7 +320,7 @@ configure_gnome_settings() {
     if (( UBUNTU_VERSION >= 20 )); then
         : disable ubuntu/gnome welcome wizard
         as_user touch $HOME/.config/gnome-initial-setup-done
-        pkill -9 gnome-initial-setup &>/dev/null
+        pkill -9 gnome-initial-setup ||:
     fi
 }
 
