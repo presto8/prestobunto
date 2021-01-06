@@ -2,7 +2,8 @@
 
 INSTALL_USER="user"
 
-# NOTE! You probably want to change the key below to your own key
+# NOTE! Change the key below to your own key
+# Or comment out to disable installation of an authorized key
 REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOF7pdrlAiVSJaaynnpEJJ3/1jAmtrPUSNP7/pHIg7bF phunt@agnate"
 
 main() {
