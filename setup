@@ -165,7 +165,7 @@ setup_ssh() {
 
     # make sure this system has ssh keys
     if ! test -f ~/.ssh/id_rsa; then
-        ssh-keygen -N ""
+        ssh-keygen -N "" -f "$_"
     fi
 }
 
