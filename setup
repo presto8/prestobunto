@@ -53,7 +53,7 @@ require_root() {
 
 apt_update() {
     if [[ ! -v HAVE_APT_UPDATE ]]; then
-        apt update
+        apt-get update
         HAVE_APT_UPDATE=1
     fi
 }
@@ -78,14 +78,14 @@ install_package() {
     if ! dpkg -s "$1" | grep -q "Status: install ok installed"; then
         apt_update
         echo "installing $1"
-        apt install -y "$1"
+        apt-get install -y "$1"
     fi
 }
 
 remove_package() {
     if ! dpkg -s "$1" 2>&1 | grep -q "is not installed"; then
         echo "uninstalling $1"
-        apt purge -y "$1"
+        apt-get purge -y "$1"
     fi
 }
 
