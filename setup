@@ -334,7 +334,8 @@ configure_gnome_settings() {
 disable_suspend_on_lid_closed() {
     _require_line "HandleLidSwitch=ignore" /etc/systemd/logind.conf
     _require_line "HandleLidSwitchExternalPower=ignore" /etc/systemd/logind.conf
-    systemctl restart systemd-logind
+    # TODO: below command causes session to end and user logout
+    # systemctl restart systemd-logind
 }
 
 configure_x11vnc_remote_access() {
