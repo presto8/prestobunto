@@ -328,7 +328,7 @@ configure_gnome_settings() {
     if (( UBUNTU_VERSION >= 20 )); then
         : disable ubuntu/gnome welcome wizard
         as_user touch $HOME/.config/gnome-initial-setup-done
-        pkill -9 gnome-initial-setup ||:
+        pkill -9 -f gnome-initial-setup ||:
     fi
 }
 
