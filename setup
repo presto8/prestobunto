@@ -307,6 +307,9 @@ disable_automatic_updates() {
     sed -E -i.bak 's|"1"|"0"|' /etc/apt/apt.conf.d/10periodic
     sed -E -i.bak 's|"1"|"0"|' /etc/apt/apt.conf.d/20auto-upgrades
     sed -E -i.bak 's|^([^#])|#\1|g' /etc/apt/apt.conf.d/99update-notifier
+
+    pkill -9 update-notifier ||:
+    pkill -9 update-manager ||:
 }
 
 cleanup_user_home() {
