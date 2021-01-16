@@ -95,10 +95,11 @@ set_ubuntu_version() {
 }
 
 configure_apt() {
-    : kill running apt
-    while pgrep -f 'apt|aptd'; do
-        pkill -f 'apt|aptd' ||:
-        sleep 0.1
+    : kill running apt inhibitors
+    unwanted='apt|aptd|unattended-upgrade'
+    while pgrep -f "$unwanted"; do
+        pkill -f "$unwanted" ||:
+        sleep 0.2
     done
 
     if (( UBUNTU_VERSION <= 16 )); then
