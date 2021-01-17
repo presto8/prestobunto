@@ -310,6 +310,8 @@ disable_automatic_updates() {
 
     pkill -9 update-notifier ||:
     pkill -9 update-manager ||:
+
+    chmod 000 /etc/xdg/autostart/update-notifier.desktop
 }
 
 cleanup_user_home() {
