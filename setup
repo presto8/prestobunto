@@ -354,7 +354,7 @@ After=multi-user.target
 
 [Service]
 Type=Simple
-ExecStart=/usr/bin/x11vnc -display :0 -auth /run/user/1000/gdm/Xauthority -ncache 10
+ExecStart=/usr/bin/x11vnc -forever -display :0 -auth /run/user/1000/gdm/Xauthority -ncache 10
 Restart=always
 
 [Install]
