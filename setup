@@ -99,7 +99,7 @@ configure_apt() {
     unwanted='apt|aptd|unattended-upgrade'
     while pgrep -f "$unwanted"; do
         pkill -f "$unwanted" ||:
-        sleep 0.2
+        sleep 0.5
     done
 
     if (( UBUNTU_VERSION <= 16 )); then
