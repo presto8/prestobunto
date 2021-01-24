@@ -15,7 +15,7 @@ changes once.
   - Disable cups, whoopsie, avahi.daemon, apt-daily, automatic updates
 - Remote access
   - openssh-server, with pre-install authorized keys
-  - vncserver
+  - VNC server (x11vnc)
 - Filesystem
   - Remove empty directories from /home/user
 - Install packages
