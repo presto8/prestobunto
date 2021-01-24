@@ -1,6 +1,8 @@
 # prestobuntu
 
-A script to customize Ubuntu to my preferences.
+A script to customize Ubuntu to my preferences. It is intended to be
+idempotent, so it's safe to run it multiple times; it will only apply the
+changes once.
 
 - Boot
   - Text instead of graphics
