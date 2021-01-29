@@ -32,6 +32,9 @@
 [pull]
     rebase = true
 
+[rebase]
+    autostash = true
+
 [mergetool "diffconflicts"]
     cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
     trustExitCode = true
