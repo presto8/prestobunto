@@ -10,6 +10,11 @@ autoload -U zmv
 
 test -f ~/.liquidprompt && source "$_"
 
+if which fasd &>/dev/null; then
+    eval "$(fasd --init auto)"
+    alias v='f -e vim'
+fi
+
 # Tab Completions
 autoload -U compinit && compinit -C
 zstyle ':completion:*' menu select=long-list select=1
