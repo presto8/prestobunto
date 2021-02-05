@@ -76,11 +76,13 @@ fail_if_too_many_users() {
 }
 
 install_package() {
-    if ! dpkg -s "$1" | grep -q "Status: install ok installed"; then
-        apt_update
-        echo "installing $1"
-        apt-get install -y "$1"
-    fi
+    for pkg in "$@"; do
+        if ! dpkg -s "$pkg" | grep -q "Status: install ok installed"; then
+            apt_update
+            echo "installing $pkg"
+            apt-get install -y "$pkg"
+        fi
+    done
 }
 
 remove_package() {
