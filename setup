@@ -44,11 +44,11 @@ main() {
     echo; echo "prestobuntu setup complete!"
 }
 
+die() { echo "$@"; exit 1; }
+
 require_root() {
     if (( UID != 0 )); then
-        echo "must run as root"
-        echo "tip: sudo ./setup"
-        exit 1
+        die "must run as root; tip: sudo ./setup"
     fi
 }
 
