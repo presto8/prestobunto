@@ -23,7 +23,7 @@ main() {
     setup_screen
     setup_git
     setup_vim
-    install_packages
+    install_development_packages
     install_ripgrep
     install_fd
     install_fasd
@@ -208,7 +208,7 @@ hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= 
 EOF
 }
 
-install_packages() {
+install_development_packages() {
     install_package exuberant-ctags
     install_package flake8
     install_package python3-pip
