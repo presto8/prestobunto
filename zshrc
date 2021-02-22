@@ -56,3 +56,10 @@ alias jk='journalctl -k --no-hostname --follow'
 alias setproj='echo $PWD >$XDG_RUNTIME_DIR/current_project'
 alias gp='cd $(cat $XDG_RUNTIME_DIR/current_project)'
 alias scr='screen -dR'
+
+# Fix ssh-agent for screen
+# https://gist.github.com/martijnvermaat/8070533#gistcomment-1317075
+if [[ -S "$SSH_AUTH_SOCK" && ! -h "$SSH_AUTH_SOCK" ]]; then
+        ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+fi
+export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock

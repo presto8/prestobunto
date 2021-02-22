@@ -205,6 +205,9 @@ setup_screen() {
 startup_message off
 hardstatus alwayslastline
 hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %H%{KW}|%{KY}%101`%{KW}|%D %M %d%{= Kc} %C%A%{-}'
+
+# https://gist.github.com/martijnvermaat/8070533#gistcomment-1317075
+setenv SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
 EOF
 }
 
