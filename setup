@@ -45,6 +45,7 @@ main() {
 }
 
 die() { echo "$@"; exit 1; }
+mute() { "$@" &>/dev/null; }
 
 require_root() {
     if (( UID != 0 )); then
@@ -60,7 +61,7 @@ apt_update() {
 }
 
 fail_if_no_user() {
-    if ! id -u $INSTALL_USER &>/dev/null; then
+    if ! mute id -u $INSTALL_USER; then
         : cowardly refusing to run since "$INSTALL_USER" account does not exist
         exit 1
     fi
@@ -283,7 +284,7 @@ _sed() {
 _require_line() {
     # adds line if not present
     local line="$1" file="$2"
-    if ! grep --line-regexp --fixed-strings "$line" "$file" &>/dev/null; then
+    if ! grep -qs --line-regexp --fixed-strings "$line" "$file"; then
         echo "$line" >>"$file"
     fi
 }
@@ -386,7 +387,7 @@ EOF
 
 update_check() {
     get_prestobuntu_file setup "/tmp/setup.$(date -Is)"
-    if ! diff setup "$_" &>/dev/null; then
+    if ! mute diff setup "$_"; then
         echo "A newer setup file may be available: $_"
         echo "Cowardly refusing to proceed..."
         exit 100
