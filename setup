@@ -2,9 +2,9 @@
 
 INSTALL_USER="user"
 
-# NOTE! Change the key below to your own key
-# Or comment out to disable installation of an authorized key
-REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOF7pdrlAiVSJaaynnpEJJ3/1jAmtrPUSNP7/pHIg7bF phunt@agnate"
+# NOTE! Change the values below to your own
+# Or comment out to disable installation
+SSH_REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOF7pdrlAiVSJaaynnpEJJ3/1jAmtrPUSNP7/pHIg7bF phunt@agnate"
 ZEROTIER_NETWORK="8286ac0e47fafe85"
 
 main() {
@@ -163,10 +163,10 @@ as_user() {
 setup_ssh() {
     install_package openssh-server
 
-    if [[ -v REMOTE_ACCESS_PUBKEY ]]; then
+    if [[ -v SSH_REMOTE_ACCESS_PUBKEY ]]; then
         as_user mkdir -p $HOME/.ssh --mode 700
         as_user touch $HOME/.ssh/authorized_keys
-        _require_line "$REMOTE_ACCESS_PUBKEY" $HOME/.ssh/authorized_keys
+        _require_line "$SSH_REMOTE_ACCESS_PUBKEY" $HOME/.ssh/authorized_keys
         chmod 600 $HOME/.ssh/authorized_keys
     fi
 
