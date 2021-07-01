@@ -5,6 +5,7 @@ INSTALL_USER="user"
 # NOTE! Change the key below to your own key
 # Or comment out to disable installation of an authorized key
 REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOF7pdrlAiVSJaaynnpEJJ3/1jAmtrPUSNP7/pHIg7bF phunt@agnate"
+ZEROTIER_NETWORK="8286ac0e47fafe85"
 
 main() {
     set -e -x
@@ -311,6 +312,9 @@ install_wireless_build_packages() {
 install_zerotier() {
     get_internet_file https://install.zerotier.com /tmp/zerotier.install
     sudo bash "$_"
+    if [[ -v ZEROTIER_NETWORK ]]; then
+        sudo zerotier-cli join "$ZEROTIER_NETWORK"
+    fi
 }
 
 remove_applications() {
