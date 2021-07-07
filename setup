@@ -7,6 +7,9 @@ INSTALL_USER="user"
 SSH_REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOF7pdrlAiVSJaaynnpEJJ3/1jAmtrPUSNP7/pHIg7bF phunt@agnate"
 ZEROTIER_NETWORK="8286ac0e47fafe85"
 
+# Change the value below to change the hostname
+CHANGE_HOSTNAME_TO=""
+
 main() {
     set -e -x
     HOME=/home/$INSTALL_USER
@@ -18,6 +21,7 @@ main() {
     fail_if_too_many_users
 
     set_ubuntu_version
+    change_hostname
     configure_apt
     setup_zsh
     setup_ssh
@@ -97,6 +101,12 @@ remove_package() {
 set_ubuntu_version() {
     UBUNTU_VERSION=$(grep RELEASE /etc/lsb-release | grep -Eo '[0-9.]+')
     UBUNTU_VERSION=${UBUNTU_VERSION%%.*}  # keep major version only, e.g. 16
+}
+
+change_hostname() {
+    if [[ -v CHANGE_HOSTNAME_TO && $CHANGE_HOSTNAME_TO ]]; then
+        sudo hostnamectl set-hostname "$CHANGE_HOSTNAME_TO"
+    fi
 }
 
 configure_apt() {
