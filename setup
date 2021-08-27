@@ -36,6 +36,7 @@ main() {
     configure_network eno1
     disable_automatic_updates
     disable_unwanted_services
+    disable_login_messages
     cleanup_user_home
     configure_gnome_settings
     disable_suspend_on_lid_closed
@@ -277,6 +278,10 @@ disable_unwanted_services() {
 
     # note: can't uninstall evolution since it will break Ubuntu; prevent the processes from starting
     chmod -x /usr/libexec/evolution-*
+}
+
+disable_login_messages() {
+    touch $HOME/.hushlogin
 }
 
 disable_graphical_grub() {
