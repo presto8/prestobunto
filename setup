@@ -50,7 +50,7 @@ main() {
     echo; echo "prestobuntu setup complete!"
 }
 
-die() { echo "$@"; exit 1; }
+die() { echo "!! $*"; exit 1; }
 mute() { "$@" &>/dev/null; }
 
 require_root() {
@@ -68,8 +68,7 @@ apt_update() {
 
 fail_if_no_user() {
     if ! mute id -u $INSTALL_USER; then
-        : cowardly refusing to run since "$INSTALL_USER" account does not exist
-        exit 1
+        die "cowardly refusing to run since $INSTALL_USER account does not exist"
     fi
 }
 
@@ -77,8 +76,7 @@ fail_if_too_many_users() {
     local home
     home=$(echo /home/*)
     if [[ "$home" != "/home/$INSTALL_USER" ]]; then
-        : cowardly refusing to run since /home directory is not as we expected
-        exit 2
+        die "cowardly refusing to run since /home directory is not as we expected"
     fi
 }
 
