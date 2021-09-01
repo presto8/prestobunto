@@ -411,4 +411,11 @@ update_check() {
     fi
 }
 
+_info_helper() {
+    local color=$1 prefix=$2 ; shift 2
+    echo -e "\033[${color}m${prefix}$*\e[0m"
+}
+info() { _info_helper 36 ":: " "$@" ; }
+die() { _info_helper 31 "!! " "$@" ; exit 1; }
+
 main "$@"
