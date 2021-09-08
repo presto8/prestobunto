@@ -47,7 +47,7 @@ main() {
     install_zerotier
     remove_applications
 
-    echo; echo "prestobuntu setup complete!"
+    info "prestobuntu setup complete!"
 }
 
 mute() { "$@" &>/dev/null; }
@@ -83,7 +83,7 @@ install_package() {
     for pkg in "$@"; do
         if ! dpkg -s "$pkg" | grep -q "Status: install ok installed"; then
             apt_update
-            echo "installing $pkg"
+            info "installing $pkg"
             apt-get install -y "$pkg"
         fi
     done
@@ -91,7 +91,7 @@ install_package() {
 
 remove_package() {
     if ! dpkg -s "$1" 2>&1 | grep -q "is not installed"; then
-        echo "uninstalling $1"
+        info "uninstalling $1"
         apt-get purge -y "$1"
     fi
 }
@@ -404,9 +404,8 @@ EOF
 update_check() {
     get_prestobuntu_file setup "/tmp/setup.$(date -Is)"
     if ! mute diff setup "$_"; then
-        echo "A newer setup file may be available: $_"
-        echo "Cowardly refusing to proceed..."
-        exit 100
+        info "A newer setup file may be available: $_"
+        die "Cowardly refusing to proceed..."
     fi
 }
 
