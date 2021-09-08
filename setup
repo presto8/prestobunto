@@ -1,17 +1,25 @@
 #!/usr/bin/env bash
 
-INSTALL_USER="user"
+set -Eeu -o pipefail
 
-# NOTE! Change the values below to your own
-# Or comment out to disable installation
-SSH_REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOF7pdrlAiVSJaaynnpEJJ3/1jAmtrPUSNP7/pHIg7bF phunt@agnate"
-ZEROTIER_NETWORK="8286ac0e47fafe85"
+user_config() {
+    # Customize user config and comment out or remove the line below afterwards
+    die "must customize user_config before running"
 
-# Change the value below to change the hostname
-CHANGE_HOSTNAME_TO=""
+    INSTALL_USER="user"
+
+    # NOTE! Change the values below to your own
+    # Or comment out to disable installation
+    SSH_REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOF7pdrlAiVSJaaynnpEJJ3/1jAmtrPUSNP7/pHIg7bF phunt@agnate"
+    ZEROTIER_NETWORK="8286ac0e47fafe85"
+
+    # Change the value below to change the hostname
+    CHANGE_HOSTNAME_TO=""
+}
 
 main() {
-    set -e -x
+    user_config
+
     HOME=/home/$INSTALL_USER
 
     update_check
