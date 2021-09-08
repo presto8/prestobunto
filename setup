@@ -50,7 +50,6 @@ main() {
     echo; echo "prestobuntu setup complete!"
 }
 
-die() { echo "!! $*"; exit 1; }
 mute() { "$@" &>/dev/null; }
 
 require_root() {
