@@ -24,7 +24,6 @@ main() {
 
     require_root
     fail_if_no_user
-    fail_if_too_many_users
 
     set_ubuntu_version
     change_hostname
@@ -74,14 +73,6 @@ apt_update() {
 fail_if_no_user() {
     if ! mute id -u $INSTALL_USER; then
         die "cowardly refusing to run since $INSTALL_USER account does not exist"
-    fi
-}
-
-fail_if_too_many_users() {
-    local home
-    home=$(echo /home/*)
-    if [[ "$home" != "/home/$INSTALL_USER" ]]; then
-        die "cowardly refusing to run since /home directory is not as we expected"
     fi
 }
 
