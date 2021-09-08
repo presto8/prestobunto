@@ -25,7 +25,7 @@ main() {
     require_root
     fail_if_no_user
 
-    set_ubuntu_version
+    check_ubuntu_version
     change_hostname
     configure_apt
     setup_zsh
@@ -93,9 +93,13 @@ remove_package() {
     fi
 }
 
-set_ubuntu_version() {
+check_ubuntu_version() {
     UBUNTU_VERSION=$(grep RELEASE /etc/lsb-release | grep -Eo '[0-9.]+')
-    UBUNTU_VERSION=${UBUNTU_VERSION%%.*}  # keep major version only, e.g. 16
+    UBUNTU_VERSION=${UBUNTU_VERSION%%.*}  # keep major version only, e.g. 18
+
+    if (( UBUNTU_VERSION < 18 )); then
+        die "prestobuntu only supported on Ubuntu 18.04 or higher"
+    fi
 }
 
 change_hostname() {
