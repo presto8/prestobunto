@@ -22,8 +22,6 @@ main() {
 
     HOME=/home/$INSTALL_USER
 
-    update_check
-
     require_root
     fail_if_no_user
     fail_if_too_many_users
@@ -407,14 +405,6 @@ EOF
 
     systemctl daemon-reload
     systemctl enable --now x11vnc
-}
-
-update_check() {
-    get_prestobuntu_file setup "/tmp/setup.$(date -Is)"
-    if ! mute diff setup "$_"; then
-        info "A newer setup file may be available: $_"
-        die "Cowardly refusing to proceed..."
-    fi
 }
 
 _info_helper() {
