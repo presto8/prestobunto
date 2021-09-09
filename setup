@@ -3,10 +3,7 @@
 set -Eeu -o pipefail
 
 user_config() {
-    # Customize user config and comment out or remove the line below afterwards
-    die "must customize user_config before running; hint: $EDITOR $0"
-
-    INSTALL_USER="user"
+    INSTALL_USER=""
 
     # NOTE! Change the values below to your own
     # Or comment out to disable installation
@@ -19,6 +16,10 @@ user_config() {
 
 main() {
     user_config
+
+    if [[ -z $INSTALL_USER ]]; then
+        die "must customize user_config before running; hint: $EDITOR $0"
+    fi
 
     HOME=/home/$INSTALL_USER
 
