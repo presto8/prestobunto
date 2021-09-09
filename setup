@@ -4,7 +4,7 @@ set -Eeu -o pipefail
 
 user_config() {
     # Customize user config and comment out or remove the line below afterwards
-    die "must customize user_config before running"
+    die "must customize user_config before running; hint: $EDITOR $0"
 
     INSTALL_USER="user"
 
