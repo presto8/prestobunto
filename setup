@@ -34,6 +34,7 @@ main() {
     setup_screen
     setup_git
     setup_vim
+    setup_nvim
     install_development_packages
     install_ripgrep
     install_fd
@@ -261,6 +262,11 @@ setup_vim() {
     get_prestobuntu_file vimrc $HOME/.vim/vimrc
 
     as_user vim +'PlugInstall --sync' +qa
+}
+
+setup_nvim() {
+    install_package neovim
+    as_user mkdir -p $HOME/.config/nvim
 }
 
 disable_unwanted_services() {
