@@ -268,7 +268,7 @@ disable_unwanted_services() {
     systemctl disable --now avahi-daemon ||:
 
     # note: can't uninstall evolution since it will break Ubuntu; prevent the processes from starting
-    chmod -x /usr/libexec/evolution-*
+    find /usr/libexec -type f -name 'evolution-*' -exec chmod -x "{}" \;
 }
 
 disable_login_messages() {
