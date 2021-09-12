@@ -286,6 +286,7 @@ disable_unwanted_services() {
     systemctl disable --now cups cups-browsed
     systemctl disable --now whoopsie
     systemctl disable --now avahi-daemon ||:
+    systemctl disable --now colord ||:
 
     # note: can't uninstall evolution since it will break Ubuntu; prevent the processes from starting
     find /usr/libexec -type f -name 'evolution-*' -exec chmod -x "{}" \;
