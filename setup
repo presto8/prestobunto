@@ -46,6 +46,7 @@ main() {
     install_fasd
     configure_system
     enable_sudo_without_password
+    remap_capslock_to_control
     configure_network eno1
     disable_automatic_updates
     disable_unwanted_services
@@ -126,17 +127,18 @@ configure_apt() {
 }
 
 configure_system() {
-    if ! grep -q ctrl:nocaps /etc/default/keyboard; then
-        : Remap CapsLock key as Ctrl
-        sed -E -i.bak 's|^(XKBOPTIONS=")(")|\1ctrl:nocaps\2|' /etc/default/keyboard
-    fi
-
     : make journald persistent
     mkdir -p /var/log/journal
 
     : configure motd to remove update messages
     (cd /etc/update-motd.d
      chmod -x 10-help-text 90-updates-available 91-release-upgrade)
+}
+
+remap_capslock_to_control() {
+    if ! grep -q ctrl:nocaps /etc/default/keyboard; then
+        sed -E -i.bak 's|^(XKBOPTIONS=")(")|\1ctrl:nocaps\2|' /etc/default/keyboard
+    fi
 }
 
 enable_sudo_without_password() {
