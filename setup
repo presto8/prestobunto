@@ -45,6 +45,7 @@ main() {
     install_fd
     install_fasd
     configure_system
+    enable_sudo_without_password
     configure_network eno1
     disable_automatic_updates
     disable_unwanted_services
@@ -125,11 +126,6 @@ configure_apt() {
 }
 
 configure_system() {
-    if ! grep -q NOPASSWD /etc/sudoers; then
-        : Allow sudo without password
-        sed -E -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD: \2|' /etc/sudoers
-    fi
-
     if ! grep -q ctrl:nocaps /etc/default/keyboard; then
         : Remap CapsLock key as Ctrl
         sed -E -i.bak 's|^(XKBOPTIONS=")(")|\1ctrl:nocaps\2|' /etc/default/keyboard
@@ -141,6 +137,13 @@ configure_system() {
     : configure motd to remove update messages
     (cd /etc/update-motd.d
      chmod -x 10-help-text 90-updates-available 91-release-upgrade)
+}
+
+enable_sudo_without_password() {
+    if ! grep -q NOPASSWD /etc/sudoers; then
+        : Allow sudo without password
+        sed -E -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD: \2|' /etc/sudoers
+    fi
 }
 
 configure_network() {
