@@ -287,11 +287,14 @@ setup_static_ip_address() {
     fi
 }
 
+disable_service() {
+    for service in "$@"; do
+        systemctl disable --now "$service" ||:
+    done
+}
+
 disable_unwanted_services() {
-    systemctl disable --now cups cups-browsed
-    systemctl disable --now whoopsie
-    systemctl disable --now avahi-daemon ||:
-    systemctl disable --now colord ||:
+    disable_service cups cups-browsed whoopsie avahi-daemon colord
 
     # note: can't uninstall evolution since it will break Ubuntu; prevent the processes from starting
     find /usr/libexec -type f -name 'evolution-*' -exec chmod -x "{}" \;
@@ -355,10 +358,7 @@ remove_applications() {
 }
 
 disable_automatic_updates() {
-    systemctl disable --now apt-daily.timer
-    systemctl disable --now unattended-upgrades
-    systemctl disable --now packagekit
-    systemctl disable --now apt-daily-upgrade.timer
+    disable_service apt-daily.timer unattended-upgrades packagekit apt-daily-upgrade.timer
 
     sed -E -i.bak 's|"1"|"0"|' /etc/apt/apt.conf.d/10periodic
     sed -E -i.bak 's|"1"|"0"|' /etc/apt/apt.conf.d/20auto-upgrades
