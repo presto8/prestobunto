@@ -27,7 +27,7 @@ main() {
 
     HOME=/home/$INSTALL_USER
 
-    require_root
+    check_sudo
     fail_if_no_user
 
     check_ubuntu_version
@@ -66,15 +66,20 @@ main() {
 
 mute() { "$@" &>/dev/null; }
 
-require_root() {
-    if (( UID != 0 )); then
-        die "must run as root; tip: sudo ./setup"
+check_sudo() {
+    if (( UID == 0 )); then
+        die "must not run as root (tip: don't use sudo)"
+    fi
+
+    if ! sudo -n true &>/dev/null; then
+        info "root privileges are needed for installation"
+        sudo true
     fi
 }
 
 apt_update() {
     if [[ ! -v HAVE_APT_UPDATE ]]; then
-        apt-get update
+        sudo apt-get update
         HAVE_APT_UPDATE=1
     fi
 }
@@ -90,7 +95,7 @@ install_package() {
         if ! dpkg -s "$pkg" | grep -q "Status: install ok installed"; then
             apt_update
             info "installing $pkg"
-            apt-get install -y "$pkg"
+            sudo apt-get install -y "$pkg"
         fi
     done
 }
@@ -121,30 +126,30 @@ configure_apt() {
     : kill running apt inhibitors
     unwanted='apt|aptd|unattended-upgrade'
     while pgrep -f "$unwanted"; do
-        pkill -f "$unwanted" ||:
+        sudo pkill -f "$unwanted" ||:
         sleep 0.5
     done
 }
 
 configure_system() {
     : make journald persistent
-    mkdir -p /var/log/journal
+    sudo mkdir -p /var/log/journal
 
     : configure motd to remove update messages
     (cd /etc/update-motd.d
-     chmod -x 10-help-text 90-updates-available 91-release-upgrade)
+     sudo chmod -x 10-help-text 90-updates-available 91-release-upgrade)
 }
 
 remap_capslock_to_control() {
     if ! grep -q ctrl:nocaps /etc/default/keyboard; then
-        sed -E -i.bak 's|^(XKBOPTIONS=")(")|\1ctrl:nocaps\2|' /etc/default/keyboard
+        sudo sed -E -i.bak 's|^(XKBOPTIONS=")(")|\1ctrl:nocaps\2|' /etc/default/keyboard
     fi
 }
 
 enable_sudo_without_password() {
     if ! grep -q NOPASSWD /etc/sudoers; then
         : Allow sudo without password
-        sed -E -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD: \2|' /etc/sudoers
+        sudo sed -E -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD: \2|' /etc/sudoers
     fi
 }
 
@@ -178,8 +183,8 @@ setup_ssh() {
     install_package openssh-server
 
     if [[ -v SSH_REMOTE_ACCESS_PUBKEY ]]; then
-        as_user mkdir -p $HOME/.ssh --mode 700
-        as_user touch $HOME/.ssh/authorized_keys
+        mkdir -p $HOME/.ssh --mode 700
+        touch $HOME/.ssh/authorized_keys
         _require_line "$SSH_REMOTE_ACCESS_PUBKEY" $HOME/.ssh/authorized_keys
         chmod 600 $HOME/.ssh/authorized_keys
     fi
@@ -206,7 +211,7 @@ get_prestobuntu_file() {
 
 setup_zsh() {
     install_package zsh
-    chsh -s /usr/bin/zsh $INSTALL_USER
+    sudo chsh -s /usr/bin/zsh "$INSTALL_USER"
 
     get_prestobuntu_file zshrc $HOME/.zshrc
     get_internet_file "https://raw.githubusercontent.com/nojhan/liquidprompt/master/liquidprompt" $HOME/.liquidprompt
@@ -217,7 +222,7 @@ setup_zsh() {
 setup_screen() {
     install_package screen
 
-    as_user tee $HOME/.screenrc <<'EOF'
+    tee $HOME/.screenrc <<'EOF'
 startup_message off
 hardstatus alwayslastline
 hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %H%{KW}|%{KY}%101`%{KW}|%D %M %d%{= Kc} %C%A%{-}'
@@ -253,7 +258,7 @@ install_fd() {
         install_package fd-find
     else
         get_internet_file https://github.com/sharkdp/fd/releases/download/v8.1.1/fd_8.1.1_amd64.deb /tmp/fd.deb
-        dpkg -i "$_"
+        sudo dpkg -i "$_"
     fi
 }
 
@@ -266,17 +271,17 @@ setup_vim() {
     install_package vim-gtk3
 
     local autoload=$HOME/.vim/autoload
-    as_user mkdir -p $autoload
+    mkdir -p "$autoload"
 
     get_internet_file "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" $autoload/plug.vim
     get_prestobuntu_file vimrc $HOME/.vim/vimrc
 
-    as_user vim +'PlugInstall --sync' +qa
+    vim +'PlugInstall --sync' +qa
 }
 
 setup_nvim() {
     install_package neovim
-    as_user mkdir -p $HOME/.config/nvim
+    mkdir -p "$HOME/.config/nvim"
 }
 
 setup_static_ip_address() {
