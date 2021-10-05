@@ -135,6 +135,9 @@ configure_system() {
     : make journald persistent
     sudo mkdir -p /var/log/journal
 
+    : allow user to view all system journals
+    sudo groupadd -G systemd-journal "$INSTALL_USER"
+
     : configure motd to remove update messages
     (cd /etc/update-motd.d
      sudo chmod -x 10-help-text 90-updates-available 91-release-upgrade)
