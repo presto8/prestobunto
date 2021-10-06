@@ -177,10 +177,6 @@ iface $1:1 inet dhcp
 EOF
 }
 
-as_user() {
-    sudo -u $INSTALL_USER "$@"
-}
-
 setup_ssh() {
     install_package openssh-server
 
@@ -203,7 +199,7 @@ setup_git() {
 }
 
 get_internet_file() {
-    as_user wget "$1" --output-document "$2"
+    wget "$1" --output-document "$2"
 }
 
 get_prestobuntu_file() {
@@ -392,7 +388,7 @@ configure_gnome_settings() {
 
     if (( UBUNTU_VERSION >= 20 )); then
         : disable ubuntu/gnome welcome wizard
-        as_user touch $HOME/.config/gnome-initial-setup-done
+        touch $HOME/.config/gnome-initial-setup-done
         pkill -9 -f gnome-initial-setup ||:
     fi
 }
