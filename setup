@@ -24,7 +24,7 @@ user_config() {
 main() {
     user_config
 
-    if [[ -z $INSTALL_MODE ]]; then
+    if [[ ! -v INSTALL_MODE || -z $INSTALL_MODE ]]; then
         die "must customize user_config before running; hint: ${EDITOR:-nano} $0"
     fi
 
