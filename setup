@@ -3,7 +3,10 @@
 set -Eeu -o pipefail
 
 user_config() {
-    INSTALL_USER=""
+    # Uncomment the desired installation mode below
+    # INSTALL_MODE="user,system"
+    # INSTALL_MODE="user-only"
+    # INSTALL_MODE="system-only"
 
     # NOTE! Change the values below to your own
     # Or comment out to disable installation
@@ -21,11 +24,9 @@ user_config() {
 main() {
     user_config
 
-    if [[ -z $INSTALL_USER ]]; then
+    if [[ -z $INSTALL_MODE ]]; then
         die "must customize user_config before running; hint: ${EDITOR:-nano} $0"
     fi
-
-    HOME=/home/$INSTALL_USER
 
     check_sudo
 
@@ -128,7 +129,7 @@ configure_system() {
     sudo mkdir -p /var/log/journal
 
     : allow user to view all system journals
-    sudo groupadd -G systemd-journal "$INSTALL_USER"
+    sudo groupadd -G systemd-journal "$USER"
 
     : configure motd to remove update messages
     (cd /etc/update-motd.d
