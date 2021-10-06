@@ -28,7 +28,6 @@ main() {
     HOME=/home/$INSTALL_USER
 
     check_sudo
-    fail_if_no_user
 
     check_ubuntu_version
     change_hostname
@@ -81,12 +80,6 @@ apt_update() {
         kill_apt_inhibitors
         sudo apt-get update
         HAVE_APT_UPDATE=1
-    fi
-}
-
-fail_if_no_user() {
-    if ! mute id -u $INSTALL_USER; then
-        die "cowardly refusing to run since $INSTALL_USER account does not exist"
     fi
 }
 
