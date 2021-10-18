@@ -47,6 +47,7 @@ main() {
         configure_x11vnc_remote_access
         disable_graphical_grub
         cloudflare_dns
+        disable_sleep
     fi
 
     if [[ $INSTALL_MODE == *user* ]]; then
@@ -391,6 +392,10 @@ configure_gnome_settings() {
         touch $HOME/.config/gnome-initial-setup-done
         pkill -9 -f gnome-initial-setup ||:
     fi
+}
+
+disable_sleep() {
+    systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 }
 
 disable_suspend_on_lid_closed() {
