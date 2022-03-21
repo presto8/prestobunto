@@ -293,7 +293,9 @@ setup_static_ip_address() {
 
 disable_service() {
     for service in "$@"; do
-        _systemctl disable --now "$service" ||:
+        if systemctl is-enabled "$service" | grep -q enabled ; then
+            _systemctl disable --now "$service" ||:
+        fi
     done
 }
 
