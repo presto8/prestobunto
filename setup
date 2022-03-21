@@ -102,7 +102,7 @@ install_package() {
 }
 
 remove_package() {
-    if ! dpkg -s "$1" 2>&1 | grep -q "is not installed"; then
+    if dpkg -s "$1" 2>&1 | grep -vq "is not installed"; then
         info "uninstalling $1"
         sudo apt-get purge -y "$1"
     fi
