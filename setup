@@ -104,7 +104,7 @@ install_package() {
 remove_package() {
     if ! dpkg -s "$1" 2>&1 | grep -q "is not installed"; then
         info "uninstalling $1"
-        apt-get purge -y "$1"
+        sudo apt-get purge -y "$1"
     fi
 }
 
@@ -136,7 +136,7 @@ configure_system() {
     sudo mkdir -p /var/log/journal
 
     : allow user to view all system journals
-    sudo groupadd -G systemd-journal "$USER"
+    sudo usermod -G systemd-journal -a "$USER"
 
     : configure motd to remove update messages
     (cd /etc/update-motd.d
@@ -150,7 +150,7 @@ remap_capslock_to_control() {
 }
 
 enable_sudo_without_password() {
-    if ! grep -q NOPASSWD /etc/sudoers; then
+    if ! sudo grep -q NOPASSWD /etc/sudoers; then
         : Allow sudo without password
         sudo sed -E -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD: \2|' /etc/sudoers
     fi
@@ -210,7 +210,7 @@ get_prestobuntu_file() {
 
 setup_zsh() {
     install_package zsh
-    sudo chsh -s /usr/bin/zsh "$INSTALL_USER"
+    sudo chsh -s /usr/bin/zsh "$USER"
 
     get_prestobuntu_file zshrc $HOME/.zshrc
     get_internet_file "https://raw.githubusercontent.com/nojhan/liquidprompt/master/liquidprompt" $HOME/.liquidprompt
@@ -293,7 +293,7 @@ setup_static_ip_address() {
 
 disable_service() {
     for service in "$@"; do
-        systemctl disable --now "$service" ||:
+        sudo systemctl disable --now "$service" ||:
     done
 }
 
@@ -301,31 +301,31 @@ disable_unwanted_services() {
     disable_service cups cups-browsed whoopsie avahi-daemon colord
 
     # note: can't uninstall evolution since it will break Ubuntu; prevent the processes from starting
-    find /usr/libexec -type f -name 'evolution-*' -exec chmod -x "{}" \;
+    sudo find /usr/libexec -type f -name 'evolution-*' -exec chmod -x "{}" \;
 }
 
 disable_login_messages() {
-    touch $HOME/.hushlogin
+    touch "$HOME"/.hushlogin
 }
 
 disable_graphical_grub() {
-    sed -E -i.bak -e 's|^(GRUB_CMDLINE_LINUX_DEFAULT=")quiet splash(")|\1text\2|' \
-                  -e 's|^(GRUB_TIMEOUT_STYLE=).*|\1menu|' \
-                  -e 's|^(GRUB_TIMEOUT=).*|\110|' \
-                  /etc/default/grub
-    update-grub
+    sudo sed -E -i.bak -e 's|^(GRUB_CMDLINE_LINUX_DEFAULT=")quiet splash(")|\1text\2|' \
+                       -e 's|^(GRUB_TIMEOUT_STYLE=).*|\1menu|' \
+                       -e 's|^(GRUB_TIMEOUT=).*|\110|' \
+                       /etc/default/grub
+    sudo update-grub
 }
 
 _sed() {
     local from=$1 to=$2 file=$3
-    sed -E -i.bak "s|$from|$to|g" "$file"
+    sudo sed -E -i.bak "s|$from|$to|g" "$file"
 }
 
 _require_line() {
     # adds line if not present
     local line="$1" file="$2"
     if ! grep -qs --line-regexp --fixed-strings "$line" "$file"; then
-        echo "$line" >>"$file"
+        echo "$line" | sudo tee -a "$file" >/dev/null
     fi
 }
 
@@ -364,23 +364,23 @@ remove_applications() {
 disable_automatic_updates() {
     disable_service apt-daily.timer unattended-upgrades packagekit apt-daily-upgrade.timer
 
-    sed -E -i.bak 's|"1"|"0"|' /etc/apt/apt.conf.d/10periodic
-    sed -E -i.bak 's|"1"|"0"|' /etc/apt/apt.conf.d/20auto-upgrades
-    sed -E -i.bak 's|^([^#])|#\1|g' /etc/apt/apt.conf.d/99update-notifier
+    sudo sed -E -i.bak 's|"1"|"0"|' /etc/apt/apt.conf.d/10periodic
+    sudo sed -E -i.bak 's|"1"|"0"|' /etc/apt/apt.conf.d/20auto-upgrades
+    sudo sed -E -i.bak 's|^([^#])|#\1|g' /etc/apt/apt.conf.d/99update-notifier
 
-    pkill -9 update-notifier ||:
-    pkill -9 update-manager ||:
+    sudo pkill -9 update-notifier ||:
+    sudo pkill -9 update-manager ||:
 
-    chmod 000 /etc/xdg/autostart/update-notifier.desktop
+    sudo chmod 000 /etc/xdg/autostart/update-notifier.desktop
 }
 
 cleanup_user_home() {
-    find /home/$INSTALL_USER -maxdepth 1 -type d -empty '!' -name Desktop -delete ||:
-    find /home/$INSTALL_USER -name examples.desktop -delete ||:
+    find "$HOME" -maxdepth 1 -type d -empty '!' -name Desktop -delete ||:
+    find "$HOME" -name examples.desktop -delete ||:
 }
 
 configure_gnome_settings() {
-    gsettings="sudo -u $INSTALL_USER -H dbus-launch gsettings"
+    gsettings="gsettings"
     $gsettings set org.gnome.desktop.wm.preferences focus-mode 'sloppy'
     $gsettings set org.gnome.desktop.screensaver lock-enabled false
     $gsettings set org.gnome.desktop.screensaver ubuntu-lock-on-suspend false
@@ -389,13 +389,13 @@ configure_gnome_settings() {
 
     if (( UBUNTU_VERSION >= 20 )); then
         : disable ubuntu/gnome welcome wizard
-        touch $HOME/.config/gnome-initial-setup-done
+        touch "$HOME"/.config/gnome-initial-setup-done
         pkill -9 -f gnome-initial-setup ||:
     fi
 }
 
 disable_sleep() {
-    systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+    sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 }
 
 disable_suspend_on_lid_closed() {
@@ -407,7 +407,7 @@ disable_suspend_on_lid_closed() {
 
 configure_x11vnc_remote_access() {
     install_package x11vnc
-    cat >/etc/systemd/system/x11vnc.service <<EOF
+    sudo tee /etc/systemd/system/x11vnc.service >/dev/null <<EOF
 [Unit]
 Description=x11vnc Service
 After=multi-user.target
@@ -421,8 +421,8 @@ Restart=always
 WantedBy=multi-user.target
 EOF
 
-    systemctl daemon-reload
-    systemctl enable --now x11vnc
+    sudo systemctl daemon-reload
+    sudo systemctl enable --now x11vnc
 }
 
 _info_helper() {
