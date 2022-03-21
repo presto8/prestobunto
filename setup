@@ -337,7 +337,7 @@ cloudflare_dns() {
         _require_line "nameserver 1.1.1.1" /etc/resolvconf/resolv.conf.d/head
     elif [[ $resolv =~ systemd-resolved ]]; then
         _sed "^#DNS=" "DNS=1.1.1.1" /etc/systemd/resolved.conf
-        systemctl restart systemd-resolved
+        sudo systemctl restart systemd-resolved
     fi
 }
 
