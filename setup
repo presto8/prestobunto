@@ -242,7 +242,9 @@ install_development_packages() {
 install_ccache() {
     install_package ccache
     for i in gcc g++ cc c++; do
-        ln -s "$(which ccache)" "/usr/local/bin/$i"
+        local targ="/usr/local/bin/$i"
+        sudo rm -f "$targ"
+        sudo ln -s "$(which ccache)" "$targ"
     done
 }
 
