@@ -66,6 +66,7 @@ main() {
         configure_gnome_settings
         disable_suspend_on_lid_closed
         remap_capslock_to_control
+        setup_dialout_group
     fi
 
     info "prestobuntu setup complete!"
@@ -146,6 +147,11 @@ configure_system() {
 
 remap_capslock_to_control() {
     dconf write "/org/gnome/desktop/input-sources/xkb-options" "['ctrl:nocaps']"
+}
+
+setup_dialout_group() {
+    : allow user to access serial/USB devices such as /dev/ttyACM0 or /dev/ttyUSB0
+    sudo usermod -G dialout -a "$USER"
 }
 
 enable_sudo_without_password() {
