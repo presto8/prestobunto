@@ -124,6 +124,7 @@ main() {
         install_ripgrep
         install_fd
         install_fasd
+        install_rofi_greenclip
         cleanup_user_home
         configure_gnome_settings
         disable_suspend_on_lid_closed
@@ -328,6 +329,12 @@ install_fd() {
 install_fasd() {
     # provides z for quickjump cd, v for quickedit vim, etc.
     install_package fasd
+}
+
+install_rofi_greenclip() {
+    install_package rofi
+    get_internet_file "https://github.com/erebe/greenclip/releases/download/v4.2/greenclip" /tmp/greenclip
+    sudo install /tmp/greenclip /usr/local/bin
 }
 
 setup_vim() {
