@@ -63,6 +63,69 @@ col() { awk "{ print \$${1:-1} }"; }
 main "$@"
 #!/usr/bin/env bash
 
+help() {
+# shell-script-template by Preston Hunt <me@prestonhunt.com>
+#
+# All lines starting with '# ' will be printed when help is called
+    awk '/help\(\)/{flag=1; next} /awk.*help/{flag=0} flag{sub(/# ?/,""); print}' "$0"
+}
+
+main() {
+    set -Eeu -o pipefail
+
+    parse_args "$@"
+    acquire_pid_lock
+    setup
+    trap on_exit EXIT
+
+    echo flag=$FLAG
+}
+
+setup() {
+    :
+}
+
+on_exit() {
+    :
+}
+
+parse_args() {
+    ARGS=()  # unprocessed/pass through args
+    ORIG_ARGS=("$@")
+
+    VERBOSE=""
+    FLAG=default
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            help) help; exit 0 ;;
+            -v | --verbose) VERBOSE=1 ;;
+            --flag) FLAG="$2" ; shift ;;
+            --) shift ; break ;;
+            *) ARGS+=("$1") ;;
+        esac
+        shift  # shift 1 automatically for all cases, but arguments that take an arg need to shift additionally
+    done
+}
+
+acquire_pid_lock() {
+    local pidfile="${XDG_RUNTIME_DIR:-/tmp}/pid.$(basename "$0")"
+    local pid
+    if pid=$(<$pidfile); then
+        if kill -0 "$pid" &>/dev/null; then
+            die "$pidfile exists and pid $pid is running, not starting another"
+        fi
+    fi
+    echo $$ >"$pidfile"
+}
+
+info() { echo ":: $*"; }
+die() { echo "!! $*"; exit 1; }
+col() { awk "{ print \$${1:-1} }"; }
+
+main "$@"
+#!/usr/bin/env bash
+
 set -Eeu -o pipefail
 
 user_config() {
@@ -124,6 +187,7 @@ main() {
         install_ripgrep
         install_fd
         install_fasd
+        install_rofi_greenclip
         cleanup_user_home
         configure_gnome_settings
         disable_suspend_on_lid_closed
@@ -328,6 +392,12 @@ install_fd() {
 install_fasd() {
     # provides z for quickjump cd, v for quickedit vim, etc.
     install_package fasd
+}
+
+install_rofi_greenclip() {
+    install_package rofi
+    get_internet_file "https://github.com/erebe/greenclip/releases/download/v4.2/greenclip" /tmp/greenclip
+    sudo install /tmp/greenclip /usr/local/bin
 }
 
 setup_vim() {
