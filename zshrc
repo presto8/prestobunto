@@ -57,6 +57,14 @@ alias setproj='echo $PWD >$XDG_RUNTIME_DIR/current_project'
 alias gp='cd $(cat $XDG_RUNTIME_DIR/current_project)'
 alias scr='screen -dR'
 
+sc() {
+    if [[ $* == *--user* ]]; then
+        systemctl "$@"
+    else
+        sudo systemctl "$@"
+    fi
+}
+
 # Git shortcuts
 alias Gd='git diff'
 alias Gl='git log --stat --decorate'
