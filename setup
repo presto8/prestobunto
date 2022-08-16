@@ -39,7 +39,6 @@ main() {
         setup_static_ip_address
         configure_system
         enable_sudo_without_password
-        remap_capslock_to_control
         configure_network eno1
         disable_automatic_updates
         disable_unwanted_services
@@ -65,6 +64,7 @@ main() {
         cleanup_user_home
         configure_gnome_settings
         disable_suspend_on_lid_closed
+        remap_capslock_to_control
     fi
 
     info "prestobuntu setup complete!"
@@ -144,9 +144,7 @@ configure_system() {
 }
 
 remap_capslock_to_control() {
-    if ! grep -q ctrl:nocaps /etc/default/keyboard; then
-        sudo sed -E -i.bak 's|^(XKBOPTIONS=")(")|\1ctrl:nocaps\2|' /etc/default/keyboard
-    fi
+    dconf write "/org/gnome/desktop/input-sources/xkb-options" "['ctrl:nocaps']"
 }
 
 enable_sudo_without_password() {
