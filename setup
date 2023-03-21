@@ -184,7 +184,7 @@ EOF
 }
 
 setup_ssh() {
-    install_package openssh-server
+    install_package openssh-server mosh
 
     if [[ -v SSH_REMOTE_ACCESS_PUBKEY ]]; then
         mkdir -p "$HOME"/.ssh --mode 700
