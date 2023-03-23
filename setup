@@ -157,7 +157,7 @@ setup_dialout_group() {
 enable_sudo_without_password() {
     if ! sudo grep -q NOPASSWD /etc/sudoers; then
         : Allow sudo without password
-        sudo sed -E -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD: \2|' /etc/sudoers
+        sudo sed -E -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD:SETENV: \2|' /etc/sudoers
     fi
 }
 
