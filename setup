@@ -431,7 +431,7 @@ remove_snaps() {
 
     sudo rm -rf /var/cache/snapd/
 
-    sudo apt autoremove --purge snapd
+    sudo apt autoremove --purge --yes snapd
 
     rm -rf "$HOME/snap"
 }
