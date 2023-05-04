@@ -445,7 +445,7 @@ EOF
 
     sudo add-apt-repository --yes ppa:mozillateam/ppa
     sudo apt-get update
-    sudo apt-get install --yes firefox
+    install_package firefox
 }
 
 disable_suspend_on_lid_closed() {
