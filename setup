@@ -10,7 +10,7 @@ user_config() {
 
     # NOTE! Change the values below to your own
     # Or comment out to disable installation
-    # SSH_REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOF7pdrlAiVSJaaynnpEJJ3/1jAmtrPUSNP7/pHIg7bF phunt@agnate"
+    # SSH_REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID38541mtP7fDpTxoq7kfRlLdCKV0TrBLwht1vyut3+5 (none)"
     # ZEROTIER_NETWORK="8286ac0e47fafe85"
 
     # Change the value below to change the hostname
