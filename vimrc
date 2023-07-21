@@ -67,3 +67,6 @@ set cursorline
 
 " Make colors stand out better due to dark background
 set background=dark
+
+" Always use vertical split for Vim Fugitive :Gdiff
+set diffopt+=vertical
