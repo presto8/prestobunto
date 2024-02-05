@@ -417,24 +417,32 @@ disable_sleep() {
     _systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 }
 
+disable_if_installed() {
+    for unit in "$@"; do
+        if systemctl list-unit-files "$@" &>/dev/null; then
+            sudo systemctl disable "$unit"
+        fi
+    done
+}
+
 remove_snaps() {
     # Source: https://haydenjames.io/remove-snap-ubuntu-22-04-lts/
 
-    sudo systemctl disable snapd.service
-    sudo systemctl disable snapd.socket
-    sudo systemctl disable snapd.seeded.service
+    disable_if_installed snapd.service
+    disable_if_installed snapd.socket
+    disable_if_installed snapd.seeded.service
 
-    sudo snap remove firefox
-    sudo snap remove snap-store
-    sudo snap remove gtk-common-themes
-    sudo snap remove gnome-3-38-2004
-    sudo snap remove core18
+    if which snap &>/dev/null; then
+        sudo snap remove firefox
+        sudo snap remove snap-store
+        sudo snap remove gtk-common-themes
+        sudo snap remove gnome-3-38-2004
+        sudo snap remove core18
 
-    sudo rm -rf /var/cache/snapd/
-
-    sudo apt autoremove --purge --yes snapd
-
-    rm -rf "$HOME/snap"
+        sudo rm -rf /var/cache/snapd/
+        sudo apt autoremove --purge --yes snapd
+        rm -rf "$HOME/snap"
+    fi
 }
 
 install_non_snap_firefox() {
