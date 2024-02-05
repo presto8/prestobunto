@@ -219,10 +219,15 @@ setup_zsh() {
     install_package zsh
     sudo chsh -s /usr/bin/zsh "$USER"
 
-    get_prestobuntu_file zshrc $HOME/.zshrc
-    get_internet_file "https://raw.githubusercontent.com/nojhan/liquidprompt/master/liquidprompt" $HOME/.liquidprompt
+    # liquid prompt
+    get_prestobuntu_file zshrc "$HOME"/.zshrc
+    get_internet_file "https://raw.githubusercontent.com/nojhan/liquidprompt/master/liquidprompt" "$HOME"/.liquidprompt
     # change some colors to look better with dark background
-    _sed "    LP_COLOR_SSH=.*" "    LP_COLOR_SSH=\$BOLD_WHITE" $HOME/.liquidprompt
+    _sed "    LP_COLOR_SSH=.*" "    LP_COLOR_SSH=\$BOLD_WHITE" "$HOME"/.liquidprompt
+
+    # zsh-autosuggestions
+    get_internet_file "https://github.com/zsh-users/zsh-autosuggestions/blob/master/zsh-autosuggestions.zsh" "$HOME"/.zsh-autosuggestions.zsh
+    echo "source ~/.zsh-autosuggestions.zsh" >"$HOME"/.zshrc
 }
 
 setup_screen() {
@@ -446,15 +451,23 @@ remove_snaps() {
 }
 
 install_non_snap_firefox() {
-    sudo tee &>/dev/null /etc/apt/preferences.d/firefox-no-snap <<EOF
-Package: firefox*
-Pin: release o=Ubuntu*
-Pin-Priority: -1
-EOF
+    # Guide: https://support.mozilla.org/en-US/kb/install-firefox-linux
 
-    sudo add-apt-repository --yes ppa:mozillateam/ppa
-    sudo apt-get update
-    install_package firefox
+    sudo install -d -m 0755 /etc/apt/keyrings
+
+    wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+
+    gpg -n -q --import --import-options import-show /etc/apt/keyrings/packages.mozilla.org.asc | awk '/pub/{getline; gsub(/^ +| +$/,""); if($0 == "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3") print "\nThe key fingerprint matches ("$0").\n"; else print "\nVerification failed: the fingerprint ("$0") does not match the expected one.\n"}'
+
+    echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null 
+
+    echo '
+Package: *
+Pin: origin packages.mozilla.org
+Pin-Priority: 1000
+' | sudo tee /etc/apt/preferences.d/mozilla
+
+    sudo apt-get update && sudo apt-get install firefox
 }
 
 disable_suspend_on_lid_closed() {
