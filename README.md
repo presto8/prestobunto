@@ -12,7 +12,7 @@ changes once.
   - Focus follows mouse
   - Remap CapsLock to Ctrl
   - Hard-code DNS to 1.1.1.1
-  - Disable cups, whoopsie, avahi.daemon, apt-daily, automatic updates
+  - Disable cups, whoopsie, apt-daily, automatic updates
   - Remove snaps
   - Replace snap version of Firefox with apt version
   - Install X in addition to Wayland
