@@ -322,7 +322,7 @@ disable_service() {
 }
 
 disable_unwanted_services() {
-    disable_service cups cups-browsed whoopsie avahi-daemon colord
+    disable_service cups cups-browsed whoopsie colord
 
     # note: can't uninstall evolution since it will break Ubuntu; prevent the processes from starting
     sudo find /usr/libexec -type f -name 'evolution-*' -exec chmod -x "{}" \;
