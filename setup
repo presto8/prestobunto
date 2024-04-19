@@ -56,7 +56,6 @@ main() {
         setup_ssh
         setup_screen
         setup_git
-        setup_vim
         setup_nvim
         install_development_packages
         install_wireless_build_packages
@@ -286,18 +285,6 @@ install_rofi_greenclip() {
     install_package rofi
     get_internet_file "https://github.com/erebe/greenclip/releases/download/v4.2/greenclip" /tmp/greenclip
     sudo install /tmp/greenclip /usr/local/bin
-}
-
-setup_vim() {
-    install_package vim-gtk3
-
-    local autoload=$HOME/.vim/autoload
-    mkdir -p "$autoload"
-
-    get_internet_file "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" $autoload/plug.vim
-    get_prestobuntu_file vimrc $HOME/.vim/vimrc
-
-    vim +'PlugInstall --sync' +qa
 }
 
 setup_nvim() {
