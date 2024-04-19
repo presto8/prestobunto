@@ -39,7 +39,6 @@ main() {
         setup_static_ip_address
         configure_system
         enable_sudo_without_password
-        configure_network eno1
         disable_automatic_updates
         disable_unwanted_services
         disable_login_messages
@@ -158,28 +157,6 @@ enable_sudo_without_password() {
         : Allow sudo without password
         sudo sed -E -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD:SETENV: \2|' /etc/sudoers
     fi
-}
-
-configure_network() {
-    if (( UBUNTU_VERSION >= 20 )); then
-        # Ubuntu 20.04 and higher use netplan
-        return
-    fi
-
-    if grep -q prestobuntu /etc/network/interfaces; then
-        return
-    fi
-
-    cat >>/etc/network/interfaces <<EOF
-
-# added by prestobuntu
-auto $1
-iface $1 inet static
-address 192.168.250.40/24
-
-auto $1:1
-iface $1:1 inet dhcp
-EOF
 }
 
 setup_ssh() {
