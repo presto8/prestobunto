@@ -194,12 +194,6 @@ setup_zsh() {
     install_package zsh
     sudo chsh -s /usr/bin/zsh "$USER"
 
-    # liquid prompt
-    get_prestobuntu_file zshrc "$HOME"/.zshrc
-    get_internet_file "https://raw.githubusercontent.com/nojhan/liquidprompt/master/liquidprompt" "$HOME"/.liquidprompt
-    # change some colors to look better with dark background
-    _sed "    LP_COLOR_SSH=.*" "    LP_COLOR_SSH=\$BOLD_WHITE" "$HOME"/.liquidprompt
-
     # zsh-autosuggestions
     get_internet_file "https://github.com/zsh-users/zsh-autosuggestions/blob/master/zsh-autosuggestions.zsh" "$HOME"/.zsh-autosuggestions.zsh
     echo "source ~/.zsh-autosuggestions.zsh" >"$HOME"/.zshrc
