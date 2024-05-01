@@ -42,7 +42,6 @@ main() {
         disable_automatic_updates
         disable_unwanted_services
         disable_login_messages
-        configure_x11vnc_remote_access
         disable_graphical_grub
         cloudflare_dns
         disable_sleep
@@ -396,26 +395,6 @@ disable_suspend_on_lid_closed() {
     _require_line "HandleLidSwitchExternalPower=ignore" /etc/systemd/logind.conf
     # TODO: below command causes session to end and user logout
     # systemctl restart systemd-logind
-}
-
-configure_x11vnc_remote_access() {
-    install_package x11vnc
-    sudo tee /etc/systemd/system/x11vnc.service >/dev/null <<EOF
-[Unit]
-Description=x11vnc Service
-After=multi-user.target
-
-[Service]
-Type=Simple
-ExecStart=/usr/bin/x11vnc -forever -display :0 -auth /run/user/1000/gdm/Xauthority -ncache 10
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-    _systemctl daemon-reload
-    _systemctl enable --now x11vnc
 }
 
 _systemctl() { sudo systemctl "$@" ; }
