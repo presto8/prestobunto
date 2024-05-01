@@ -197,7 +197,7 @@ setup_zsh_with_prezto() {
 
     # prezto
     local dest="${ZDOTDIR:-${XDG_CONFIG_HOME:-$HOME/.config}/zsh}/.zprezto"
-    if [[ -d "$dest" ]]; then
+    if [[ ! -d "$dest" ]]; then
         git clone --recursive https://github.com/sorin-ionescu/prezto.git "$dest"
 
         for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/z*; do
