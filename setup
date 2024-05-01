@@ -49,7 +49,7 @@ main() {
     fi
 
     if [[ $INSTALL_MODE == *user* ]]; then
-        setup_zsh
+        setup_zsh_with_prezto
         setup_ssh
         setup_screen
         setup_git
@@ -190,10 +190,19 @@ get_prestobuntu_file() {
     get_internet_file "$base/$1" "$2"
 }
 
-setup_zsh() {
+setup_zsh_with_prezto() {
     install_package zsh
     sudo chsh -s /usr/bin/zsh "$USER"
 
+    # prezto
+    local dest="${ZDOTDIR:-${XDG_CONFIG_HOME:-$HOME/.config}/zsh}/.zprezto"
+    if [[ -d "$dest" ]]; then
+        git clone --recursive https://github.com/sorin-ionescu/prezto.git "$dest"
+
+        for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/z*; do
+            ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.$rcfile"
+        done
+    fi
 }
 
 setup_screen() {
