@@ -11,7 +11,6 @@ user_config() {
     # NOTE! Change the values below to your own
     # Or comment out to disable installation
     # SSH_REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID38541mtP7fDpTxoq7kfRlLdCKV0TrBLwht1vyut3+5 (none)"
-    # ZEROTIER_NETWORK="8286ac0e47fafe85"
 
     # Change the value below to change the hostname
     CHANGE_HOSTNAME_TO=""
@@ -34,7 +33,6 @@ main() {
     if [[ $INSTALL_MODE == *system* ]]; then
         info "configuring system settings"
         change_hostname
-        install_zerotier
         remove_applications
         setup_static_ip_address
         configure_system
@@ -332,14 +330,6 @@ install_wireless_build_packages() {
     for i in build-essential libnl-3-dev libnl-genl-3-dev bison flex libssl-dev libreadline-dev libncurses-dev; do
         install_package "$i"
     done
-}
-
-install_zerotier() {
-    if [[ -v ZEROTIER_NETWORK ]]; then
-        get_internet_file https://install.zerotier.com /tmp/zerotier.install
-        sudo bash "$_"
-        sudo zerotier-cli join "$ZEROTIER_NETWORK"
-    fi
 }
 
 remove_applications() {
