@@ -35,7 +35,9 @@ main() {
         change_hostname
         remove_applications
         setup_static_ip_address
-        configure_system
+        make_journald_persistent
+        allow_user_to_view_journalctl
+        remove_update_messages_from_motd
         enable_sudo_without_password
         disable_automatic_updates
         disable_unwanted_services
@@ -129,17 +131,18 @@ kill_apt_inhibitors() {
     done
 }
 
-configure_system() {
-    : make journald persistent
+make_journald_persistent() {
     sudo mkdir -p /var/log/journal
-
-    : allow user to view all system journals
-    sudo usermod -G systemd-journal -a "$USER"
-
-    : configure motd to remove update messages
-    (cd /etc/update-motd.d
-     sudo chmod -x 10-help-text 90-updates-available 91-release-upgrade)
 }
+
+allow_user_to_view_journalctl() {
+    sudo usermod -G systemd-journal -a "$USER"
+}
+
+remove_update_messages_from_motd() (
+    cd /etc/update-motd.d
+    sudo chmod -x 10-help-text 90-updates-available 91-release-upgrade
+)
 
 remap_capslock_to_control() {
     dconf write "/org/gnome/desktop/input-sources/xkb-options" "['ctrl:nocaps']"
