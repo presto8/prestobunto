@@ -13,12 +13,8 @@ changes once.
   - Remap CapsLock to Ctrl
   - Hard-code DNS to 1.1.1.1
   - Disable cups, whoopsie, apt-daily, automatic updates
-  - Remove snaps
-  - Replace snap version of Firefox with apt version
-  - Install X in addition to Wayland
 - Remote access
   - openssh-server, with pre-install authorized keys
-  - VNC server (x11vnc)
 - Filesystem
   - Remove empty directories from /home/user
 - Install packages
@@ -27,7 +23,7 @@ changes once.
   - Plugins: vim-sensible, vim-fugitive, vim-commentary, vim-unimpaired,
     supertab, ale, lightline, fzf, vim-gitgutter, vim-foldsearch, vim-ripgrep
 - Shell
-  - zsh with liquidprompt
+  - zsh with prezto
 
 ## Installation
 
