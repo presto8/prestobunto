@@ -199,7 +199,8 @@ setup_zsh_with_prezto() {
     if [[ ! -d "$dest" ]]; then
         git clone --recursive https://github.com/sorin-ionescu/prezto.git "$dest"
 
-        for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/z*; do
+        mapfile -d $'\0' rcfiles < <(find "$dest/runcoms" -name 'z*' -type f -printf "%f\0")
+        for rcfile in "${rcfiles[@]}"; do
             ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.$rcfile"
         done
     fi
