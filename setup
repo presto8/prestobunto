@@ -216,6 +216,10 @@ EOF
     for rcfile in "${rcfiles[@]}"; do
         ln -s "$rcfile" "$ZDOTDIR/.$rcfile"
     done
+
+    # zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZDOTDIR"/zsh-autosuggestions
+    _require_line "source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" "$ZDOTDIR/.zshrc"
 }
 
 setup_screen() {
