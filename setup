@@ -33,6 +33,8 @@ main() {
     if [[ $INSTALL_MODE == *system* ]]; then
         info "configuring system settings"
         change_hostname
+        remove_package thunderbird
+        remove_package rhythmbox
         remove_applications
         setup_static_ip_address
         make_journald_persistent
@@ -339,11 +341,6 @@ install_wireless_build_packages() {
     for i in build-essential libnl-3-dev libnl-genl-3-dev bison flex libssl-dev libreadline-dev libncurses-dev; do
         install_package "$i"
     done
-}
-
-remove_applications() {
-    remove_package thunderbird
-    remove_package rhythmbox
 }
 
 disable_automatic_updates() {
