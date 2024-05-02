@@ -197,15 +197,25 @@ setup_zsh_with_prezto() {
     sudo chsh -s /usr/bin/zsh "$USER"
 
     # prezto
-    local dest="${ZDOTDIR:-${XDG_CONFIG_HOME:-$HOME/.config}/zsh}/.zprezto"
-    if [[ ! -d "$dest" ]]; then
-        git clone --recursive https://github.com/sorin-ionescu/prezto.git "$dest"
-
-        mapfile -d $'\0' rcfiles < <(find "$dest/runcoms" -name 'z*' -type f -printf "%f\0")
-        for rcfile in "${rcfiles[@]}"; do
-            ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.$rcfile"
-        done
+    if [[ -d $HOME/.zshenv || -d $XDG_CONFIG_HOME/zsh/.zprezto ]]; then
+        return
     fi
+
+    local ZDOTDIR=$XDG_CONFIG_HOME/zsh
+    mkdir -p "$ZDOTDIR"
+
+    cat >"$HOME/.zshenv" <<EOF
+export ZDOTDIR="$ZOTDIR"
+source "$ZDOTDIR/.zshenv"
+EOF
+
+    local dest="$ZDOTDIR.zprezto"
+    git clone --recursive https://github.com/sorin-ionescu/prezto.git "$dest"
+
+    mapfile -d $'\0' rcfiles < <(find "$dest/runcoms" -name 'z*' -type f -printf "%f\0")
+    for rcfile in "${rcfiles[@]}"; do
+        ln -s "$rcfile" "$ZDOTDIR/.$rcfile"
+    done
 }
 
 setup_screen() {
