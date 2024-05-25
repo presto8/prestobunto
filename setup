@@ -206,7 +206,7 @@ setup_zsh_with_prezto() {
     mkdir -p "$ZDOTDIR"
 
     cat >"$HOME/.zshenv" <<EOF
-export ZDOTDIR="$ZOTDIR"
+export ZDOTDIR="$ZDOTDIR"
 source "$ZDOTDIR/.zshenv"
 EOF
 
