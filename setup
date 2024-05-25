@@ -196,13 +196,14 @@ setup_zsh_with_prezto() {
     sudo chsh -s /usr/bin/zsh "$USER"
 
     XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+    local ZDOTDIR=$XDG_CONFIG_HOME/zsh
+    local ZPREZTODIR=$ZDOTDIR/zprezto
 
     # prezto
-    if [[ -d $HOME/.zshenv || -d $XDG_CONFIG_HOME/zsh/.zprezto ]]; then
+    if [[ -d "$HOME/.zshenv" || -d "$ZPREZTODIR" ]]; then
         return
     fi
 
-    local ZDOTDIR=$XDG_CONFIG_HOME/zsh
     mkdir -p "$ZDOTDIR"
 
     cat >"$HOME/.zshenv" <<EOF
@@ -210,12 +211,11 @@ export ZDOTDIR="$ZDOTDIR"
 source "$ZDOTDIR/.zshenv"
 EOF
 
-    local dest="$ZDOTDIR.zprezto"
-    git clone --recursive https://github.com/sorin-ionescu/prezto.git "$dest"
+    git clone --recursive https://github.com/sorin-ionescu/prezto.git "$ZPREZTODIR"
 
-    mapfile -d $'\0' rcfiles < <(find "$dest/runcoms" -name 'z*' -type f -printf "%f\0")
+    mapfile -d $'\0' rcfiles < <(find "$ZPREZTODIR/runcoms" -name 'z*' -type f -print0)
     for rcfile in "${rcfiles[@]}"; do
-        ln -s "$rcfile" "$ZDOTDIR/.$rcfile"
+        ln -s "$rcfile" "$ZDOTDIR/.$(basename "$rcfile")"
     done
 
     # zsh-autosuggestions
