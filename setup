@@ -35,7 +35,6 @@ main() {
         change_hostname
         remove_package thunderbird
         remove_package rhythmbox
-        remove_applications
         setup_static_ip_address
         make_journald_persistent
         allow_user_to_view_journalctl
