@@ -195,6 +195,8 @@ setup_zsh_with_prezto() {
     install_package zsh
     sudo chsh -s /usr/bin/zsh "$USER"
 
+    XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+
     # prezto
     if [[ -d $HOME/.zshenv || -d $XDG_CONFIG_HOME/zsh/.zprezto ]]; then
         return
