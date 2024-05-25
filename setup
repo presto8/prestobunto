@@ -410,6 +410,13 @@ disable_suspend_on_lid_closed() {
     # systemctl restart systemd-logind
 }
 
+auto_start_terminal() {
+    local autostart="$HOME/.config/autostart"
+    local file="startup-terminal.desktop"
+    mkdir -p "$autostart"
+    get_prestobuntu_file "$file" "$autostart/$file"
+}
+
 _systemctl() { sudo systemctl "$@" ; }
 _info_helper() {
     local color=$1 prefix=$2 ; shift 2
