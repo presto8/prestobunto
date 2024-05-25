@@ -220,7 +220,7 @@ EOF
 
     # zsh-autosuggestions
     git clone https://github.com/zsh-users/zsh-autosuggestions "$ZDOTDIR"/zsh-autosuggestions
-    _require_line "source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" "$ZDOTDIR/.zshrc"
+    _require_line "source $ZDOTDIR/zsh-autosuggestions/zsh-autosuggestions.zsh" "$ZDOTDIR/.zshrc"
 }
 
 setup_screen() {
