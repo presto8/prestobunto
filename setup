@@ -221,6 +221,10 @@ EOF
     # zsh-autosuggestions
     git clone https://github.com/zsh-users/zsh-autosuggestions "$ZDOTDIR"/zsh-autosuggestions
     _require_line "source $ZDOTDIR/zsh-autosuggestions/zsh-autosuggestions.zsh" "$ZDOTDIR/.zshrc"
+
+    # autoscreen
+    get_prestobuntu_file "autoscreen.zsh" "$ZDOTDIR/autoscreen.zsh"
+    _require_line "source $ZDOTDIR/autoscreen.zsh" "$ZDOTDIR/.zshrc"
 }
 
 setup_screen() {
