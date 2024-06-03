@@ -294,8 +294,12 @@ install_kitty() {
 }
 
 setup_nvim() {
+    local nvimdir="$HOME/.config/nvim"
     install_package neovim
-    mkdir -p "$HOME/.config/nvim"
+    mkdir -p "$nvimdir"
+
+    # install vim-plug
+    curl -fLo "$nvimdir"/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 }
 
 setup_static_ip_address() {
