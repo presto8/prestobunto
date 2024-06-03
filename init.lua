@@ -23,4 +23,15 @@ require("lazy").setup({
       end,
   },
   "mbbill/undotree",
+  { "junegunn/fzf",
+      keys = {
+        {"<C-p>", "<cmd>FZF<cr>", desc = "Browse files with FZF" },
+      },
+  },
+  { "yegappan/mru",
+      dependencies = "junegunn/fzf",
+      keys = {
+        {"JJ", "<cmd>FZFMru<cr>", desc = "Most recent files pop-up" },
+      },
+  },
 })
