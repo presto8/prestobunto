@@ -197,7 +197,7 @@ setup_zsh_with_prezto() {
 
     XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
     local ZDOTDIR=$XDG_CONFIG_HOME/zsh
-    local ZPREZTODIR=$ZDOTDIR/zprezto
+    local ZPREZTODIR=$ZDOTDIR/.zprezto
 
     # prezto
     if [[ -d "$HOME/.zshenv" || -d "$ZPREZTODIR" ]]; then
@@ -225,6 +225,9 @@ EOF
     # autoscreen
     get_prestobuntu_file "autoscreen.zsh" "$ZDOTDIR/autoscreen.zsh"
     _require_line "source $ZDOTDIR/autoscreen.zsh" "$ZDOTDIR/.zshrc"
+
+    # disable zprezto corrections
+    _require_line "unsetopt correct" "$ZDOTDIR/.zshrc"
 }
 
 setup_screen() {
