@@ -13,7 +13,14 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   "folke/which-key.nvim",
-  { "folke/neoconf.nvim", cmd = "Neoconf" },
   "folke/neodev.nvim",
   "tpope/vim-sensible",
+  "tpope/vim-fugitive",
+  "farmergreg/vim-lastplace",
+  { "airblade/vim-gitgutter",
+      config = function()
+        vim.opt.diffopt:append("vertical")
+      end,
+  },
+  "mbbill/undotree",
 })
