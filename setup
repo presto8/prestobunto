@@ -298,6 +298,7 @@ setup_nvim() {
     install_package neovim
     mkdir -p "$nvimdir"
     get_prestobuntu_file "init.lua" "$nvimdir/init.lua"
+    install_package fzf
 }
 
 setup_static_ip_address() {
