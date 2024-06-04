@@ -31,7 +31,7 @@ require("lazy").setup({
   "airblade/vim-gitgutter",
   "mbbill/undotree",
   "jremmen/vim-ripgrep",
-  "embear/vim-foldsearch"
+  "embear/vim-foldsearch",
   { "junegunn/fzf",
       keys = {
         {"<C-p>", "<cmd>FZF<cr>", desc = "Browse files with FZF" },
