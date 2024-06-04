@@ -362,8 +362,8 @@ cloudflare_dns() {
 }
 
 install_wireless_build_packages() {
-    : install packages needed to compile wpa_supplicant, hostapd, and iwlwifi
-    for i in build-essential libnl-3-dev libnl-genl-3-dev bison flex libssl-dev libreadline-dev libncurses-dev; do
+    info "install packages needed to compile wpa_supplicant, hostapd, and iwlwifi"
+    for i in build-essential libnl-3-dev libnl-genl-3-dev bison flex libssl-dev libreadline-dev libncurses-dev pkg-config; do
         install_package "$i"
     done
 }
