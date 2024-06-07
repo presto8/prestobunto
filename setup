@@ -66,6 +66,7 @@ main() {
         disable_suspend_on_lid_closed
         remap_capslock_to_control
         setup_dialout_group
+        install_pscripts
     fi
 
     info "prestobuntu setup complete!"
@@ -152,6 +153,13 @@ remap_capslock_to_control() {
 setup_dialout_group() {
     : allow user to access serial/USB devices such as /dev/ttyACM0 or /dev/ttyUSB0
     sudo usermod -G dialout -a "$USER"
+}
+
+install_pscripts() {
+    for script in lastf psc psg; do
+        get_internet_file "https://raw.githubusercontent.com/presto8/pscripts/main/$script/$script" "~/.local/bin/$script"
+        chmod a+x "$_"
+    done
 }
 
 enable_sudo_without_password() {
