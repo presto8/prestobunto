@@ -263,8 +263,10 @@ install_development_packages() {
 
 install_ccache() {
     install_package ccache
+    local dest="$HOME/.local/bin"
+    mkdir -p "$dest"
     for i in gcc g++ cc c++; do
-        local targ="$HOME/.local/bin/$i"
+        local targ="$dest/$i"
         sudo rm -f "$targ"
         sudo ln -s "$(which ccache)" "$targ"
     done
