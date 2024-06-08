@@ -58,7 +58,6 @@ main() {
         install_wireless_build_packages
         install_ripgrep
         install_fd
-        install_fasd
         install_rofi_greenclip
         install_kitty
         cleanup_user_home
@@ -280,11 +279,6 @@ install_ripgrep() {
 
 install_fd() {
     install_package fd-find
-}
-
-install_fasd() {
-    # provides z for quickjump cd, v for quickedit vim, etc.
-    install_package fasd
 }
 
 install_rofi_greenclip() {
