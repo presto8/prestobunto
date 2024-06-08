@@ -279,12 +279,7 @@ install_ripgrep() {
 }
 
 install_fd() {
-    if (( UBUNTU_VERSION >= 19 )); then
-        install_package fd-find
-    else
-        get_internet_file https://github.com/sharkdp/fd/releases/download/v8.1.1/fd_8.1.1_amd64.deb /tmp/fd.deb
-        sudo dpkg -i "$_"
-    fi
+    install_package fd-find
 }
 
 install_fasd() {
