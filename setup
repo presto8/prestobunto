@@ -155,9 +155,13 @@ setup_dialout_group() {
 }
 
 install_pscripts() {
+    local dest="$HOME/.local/bin"
+    mkdir -p "$dest"
     for script in lastf psc psg; do
-        get_internet_file "https://raw.githubusercontent.com/presto8/pscripts/main/$script/$script" "~/.local/bin/$script"
-        chmod a+x "$_"
+        if [[ ! -f "$dest" ]]; then
+            get_internet_file "https://raw.githubusercontent.com/presto8/pscripts/main/$script/$script" "$dest/$script"
+            chmod a+x "$_"
+        fi
     done
 }
 
